@@ -1,0 +1,150 @@
+{\rtf1\ansi \deff0{\fonttbl{\f0\froman Times New Roman;}{\f1\fswiss Arial;}}{\colortbl \red0\green0\blue0;}{\stylesheet{\s0\cf0\lotusoutlinelevel0 Body Text;}{\s1\cf0\lotusoutlinelevel0 Body Single;}{\s2\cf0\lotusoutlinelevel0 \li288 Bullet;}
+{\s3\cf0\lotusoutlinelevel0 \li576 Bullet 1;}{\s4\cf0\lotusoutlinelevel0 \li720 Number List;}{\s5\cf0\b\i\sb72\sa72\lotusoutlinelevel2 Subhead;}{\s6\f1\fs36\cf0\b\sb144\sa72\lotusoutlinelevel1\keep\keepn Title;}{\s7\cf0\lotusoutlinelevel0 Header;}{\s8
+\cf0\lotusoutlinelevel0 Footer;}}\ftnbj \margl1440 \margr1440 \sectd {\header {\field{\*\fldinst page \\*roman}}\pard\plain \s0\cf0\lotusoutlinelevel0 \qr 
+\par }\pard\plain \s0\cf0\lotusoutlinelevel0 \qc {\ul \f1 \'C9COLE POLYTECHNIQUE}{\f1  }
+\par {\f1 }
+\par {\ul \f1 DE MONTR\'C9AL}{\f1 }
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par {\b \f1\fs32 Num\'E9risation automatique des c\'F4tes }
+\par {\b \f1\fs32 dans une radiographie digitale}{\f1\fs32 }
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par M\'E9moire de projet de fin d'\'E9tude soumis
+\par comme condition partielle \'E0 l'obtention  
+\par du dipl\'F4me de baccalaur\'E9at en ing\'E9nierie
+\par 
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \li5040 Pr\'E9sent\'E9 par \tab \tab : {\ul Marc Missonnier}     Matricule \tab \tab : {\ul 45302}                      Directeur de projet \tab : {\ul Andr\'E9 Beauchamps}
+\par Groupe de recherche \tab : {\ul Orthobiom}
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par Date : 18/04/94
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qc {\b\caps \f1\fs28 Num\'E9risation automatique des c\'F4tes }
+\par {\b\caps \f1\fs28 dans une radiographie digitale}{\f1\fs28 }{\f0 }
+\par {\f0 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 {\f0 }
+\par {\f0 Le but de cette \'E9tude est d'exp\'E9rimenter deux approches pour extraire les c\'F4tes dans une radiographie digitale.   La  premi\'E8re   approche, celle   avec  la  transform\'E9e  de Hough comporte plusieurs }{\f0 \'E9tapes : }
+\par {\f0 \tab -Appliquer un filtre;}
+\par {\f0 \tab -d\'E9tecter les ar\'EAtes en combinant les op\'E9rateurs gradient, Laplacien et de seuils;}
+\par {\f0 \tab -s\'E9lectionner les ar\'EAtes obtenues selon l'orientation angulaire du gradient;}
+\par {\f0 \tab -appliquer une transform\'E9e de Hough \'E9tendue pour obtenir les sections coniques}{\f0 .}
+\par {\f0 La seconde approche, avec l'analyse locale consiste \'E0 :}
+\par {\f0 \tab -Appliquer un filtre;}
+\par {\f0 \tab -d\'E9tecter les ar\'EAtes en combinant les op\'E9rateurs gradient, Laplacien et de seuils;}
+\par {\f0 \tab -suivre localement les contours obtenus selon un crit\'E8re de connectivit\'E9.}
+\par {\f0 Les r\'E9sultats obtenus avec la transform\'E9e de Hough montrent que l'\'E9tape du filtrage n'est pas n\'E9cessaire. }{\f0 On peut difficilement distinguer sur les images de la transform\'E9e de Hough les points foyers. \'C0 cause de la pr\'E9
+sence de vascularit\'E9s et de bruit,  l'accumulation des points foyers ne forme pas de nuages distincts.  La segmentation avec crit\'E8re de connectivit\'E9 est pr\'E9f\'E9rable.}
+\par {\f0 L'analyse locale produit un r\'E9sultat tr\'E8s limit\'E9 car l'algorithme se perd tr\'E8s rapidement.  }{\f0  En effet, seule une portion de la premi\'E8re c\'F4te a \'E9t\'E9 d\'E9tect\'E9e. La raison vient de la pr\'E9sence de discontinuit\'E9
+s dans l'image. Aussi on pr\'E9f\'E8re la segmentation sans crit\'E8re de connectivit\'E9.}
+\par {\f0 }
+\par {\f0 Mots-cl\'E9s : num\'E9risation - segmentation - transform\'E9e de Hough }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qc \sl480 {\b \f1\fs28 TABLE DES MATI\'C8RES}{\f1\fs28 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl240 {\f0 }
+\par {\f0 }
+\par {\f0 Liste des tableaux\tab \tab \tab \tab \tab \tab \tab \tab  i}
+\par {\f0 Liste des figures\tab \tab \tab \tab \tab \tab \tab \tab ii}
+\par {\f0 }
+\par {\f0 1. INTRODUCTION\tab \tab \tab \tab \tab \tab \tab \tab  1}
+\par {\f0 \tab 1.1 Domaine biom\'E9dical\tab \tab \tab \tab \tab \tab  1}
+\par {\f0 \tab 1.2 \'C9tude de la scoliose\tab \tab \tab \tab \tab \tab  1}
+\par {\f0 \tab 1.3 Objectifs du projet\tab \tab \tab \tab \tab \tab \tab  2}
+\par {\f0 \tab 1.4 M\'E9thodologie\tab \tab \tab \tab \tab \tab \tab  2}
+\par {\f0 \tab 1.5 D\'E9marche\tab \tab \tab \tab \tab \tab \tab \tab  3}
+\par {\f0 }
+\par {\f0 2. REVUE DE LA DOCUMENTATION\tab \tab \tab \tab \tab  4}
+\par {\f0 \tab 2.1 Pr\'E9traitement de l'image\tab \tab \tab \tab \tab \tab  4}
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl240 \tx721\tx1447\tx7204 {\f0 \tab 2.2 La segmentation\tab  5}
+\par {\f0 \tab \tab 2.2.1 M\'E9thode bas\'E9e sur les ar\'EAtes\tab  5}
+\par {\f0 \tab \tab 2.2.2 M\'E9thode bas\'E9e sur les r\'E9gions\tab  8}
+\par {\f0 \tab \tab 2.2.3 Multir\'E9solution\tab  9}
+\par {\f0 \tab 2.3 Extraction d'objets\tab 10}
+\par {\f0 \tab \tab 2.3.1 L'analyse locale\tab 11}
+\par {\f0 \tab \tab 2.3.2 La transform\'E9e de Hough\tab 12}
+\par {\f0 \tab \tab 2.3.3 La recherche heuristique\tab 13}
+\par {\f0 \tab 2.4 Objectifs et d\'E9finition du projet\tab 15}
+\par {\f0 }
+\par {\f0 3. M\'C9THODOLOGIE DU TRAVAIL\tab 16}
+\par {\f0 \tab 3.1 Approche de Wechsler\tab 16}
+\par {\f0 \tab \tab 3.1.1 Description de la m\'E9thode\tab 16}
+\par \tab \tab 3.1.2 Segmentation\tab 18
+\par \tab \tab 3.1.3 Transform\'E9e de Hough\tab 19
+\par \tab 3.2 Analyse locale\tab 23
+\par \tab \tab 3.2.1 \'C9tape de pr\'E9traitement\tab 23
+\par \tab \tab 3.2.2 Segmentation\tab 23
+\par \tab \tab 3.2.3 Reconnaissance des c\'F4tes\tab 24
+\par 
+\par 4. DISCUSSION ET INTERPR\'C9TATION DES R\'C9SULTATS\tab 25
+\par \tab 4.1 Transform\'E9e de Hough\tab 25
+\par \tab \tab 4.1.1 Transform\'E9e d'une parabole\tab 25
+\par \tab \tab 4.1.2 \'C9tape de pr\'E9traitement\tab 26
+\par \tab \tab 4.1.3 Segmentation\tab 26
+\par \tab \tab 4.1.4 Transform\'E9e des c\'F4tes\tab 27
+\par \tab 4.2{\f0  Analyse locale\tab 28}
+\par {\f0 \tab \tab 4.2.1 Segmentation\tab 28}
+\par {\f0 \tab \tab 4.2.2 Reconnaissance des c\'F4tes\tab 29}
+\par {\f0 5. RECOMMANDATIONS\tab 30}
+\par {\f0 \tab 5.1 Am\'E9lioration pour la transform\'E9e de Hough\tab 30}
+\par {\f0 \tab 5.2 Am\'E9lioration pour l'analyse locale\tab 32}
+\par {\f0 \tab 5.3 R\'E9seau de neurones\tab 33}
+\par {\f0 \tab 5.4 Recommandations\tab 34}
+\par {\f0 }
+\par {\f0 6. CONCLUSION\tab 35}
+\par {\f0 \tab 6.1 Transform\'E9e de Hough\tab 35}
+\par {\f0 \tab 6.2 Analyse locale\tab 36}
+\par {\f0 \tab 6.3 Contribution au domaine biom\'E9dical\tab 36}
+\par {\f0 }
+\par {\f0 BIBLIOGRAPHIE\tab 37}
+\par {\f0 }
+\par {\f0 ANNEXE A}
+\par {\f0 \tab Images\tab \tab 38}\par \page \pard\plain \s0\cf0\lotusoutlinelevel0 \qc {\b \f1\fs28 REMERCIEMENTS}{\f1\fs28 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 {\f0 }
+\par {\f0 }
+\par {\f0 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 {\f0 Je tiens \'E0 exprimer ma reconnaissance \'E0 tous ceux qui ont contribu\'E9 \'E0 la r\'E9alisation de cette \'E9tude. En particulier je remercie Robert Howison, \'E9tudiant en ma\'EEtrise \'E0 
+l'\'C9.T.S, qui m'a fourni toutes les informations et les logiciels n\'E9cessaires \'E0 ce travail. Pour l'encadrement de ma d\'E9marche je tiens aussi \'E0 remercier : mon directeur de projet Andr\'E9 Beauchamps, charg\'E9 d'enseignement \'E0 l'\'C9col
+e Polytechnique de Montr\'E9al, ainsi que Jacques De Guise, directeur de recherche \'E0 l'\'C9.T.S.}\par \page \pard\plain \s0\cf0\lotusoutlinelevel0 \qc \tx704\tx1430\tx7204 {\b \f1\fs28 LISTE DES TABLEAUX}{\f1\fs28 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \tx704\tx1430\tx7204 {\f0 }
+\par {\f0 \tab \tab \tab page}
+\par {\f0 }
+\par {\f0 2.1 \tab Op\'E9rateur de Sobel\tab  6}
+\par {\f0 }
+\par {\f0 3.1 \tab Connectivit\'E9 du pixel avec ses voisins\tab 22}
+\par {\f0 3.2 \tab Filtre de convolution\tab 22}\par \page \pard\plain \s0\cf0\lotusoutlinelevel0 \qc \tx704\tx1430\tx7204 {\b \f1\fs28 LISTE DES FIGURES}{\f1\fs28 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \tx704\tx1430\tx7204 {\f0 }
+\par {\f0 \tab \tab \tab page}
+\par {\f0 }
+\par {\f0 2.1 \tab Pr\'E9traitement de Wechsler\tab  4}
+\par {\f0 2.2 \tab Divisions de la c\'F4te dorsale pour la recherche heuristique\tab 14}
+\par {\f0 }
+\par {\f0 3.1 \tab R\'E9partition des cadrans\tab 18}
+\par {\f0 3.2 \tab Approximations g\'E9om\'E9triques\tab 17}
+\par {\f0 3.3\tab Classification du cadran\tab 17}
+\par {\f0 3.4 \tab Mod\'E8le parabolique des c\'F4tes dorsales du poumon droit\tab 20}
+\par {\f0 }
+\par {\f0 }
+\par {\f0 }\par}

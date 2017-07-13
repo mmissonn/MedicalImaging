@@ -1,0 +1,77 @@
+{\rtf1\ansi \deff0{\fonttbl{\f0\froman Times New Roman;}{\f1\fswiss Arial;}}{\colortbl \red0\green0\blue0;}{
+\stylesheet{\s0\cf0\lotusoutlinelevel0 Body Text;}{\s1\cf0\lotusoutlinelevel0 Body Single;}{\s2\cf0\lotusoutlinelevel0 \li288 Bullet;}{\s3\cf0\lotusoutlinelevel0 \li576 Bullet 1;}{\s4\cf0\lotusoutlinelevel0 \li720 Number List;}{\s5\cf0\b\i\sb72\sa72
+\lotusoutlinelevel2 Subhead;}{\s6\f1\fs36\cf0\b\sb144\sa72\lotusoutlinelevel1\keep\keepn Title;}{\s7\cf0\lotusoutlinelevel0 Header;}{\s8\cf0\lotusoutlinelevel0 Footer;}{\s9\cf0\lotusoutlinelevel0 \fi720 Footnote;}}\ftnbj \pgnstart26 \margl1440 \margr1440 \sectd {\header {\field{\*\fldinst page \\*arabic}}\pard\plain \s0\cf0\lotusoutlinelevel0 \qr 
+\par }\pard\plain \s0\cf0\lotusoutlinelevel0 \qc \sl480 {\b\caps \f1\fs28 CHAPITRE 4}
+\par {\b\caps \f1\fs28 Discussion et interpr\'E9tation des r\'E9sultats}{\f1\fs28 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 
+\par \tab 
+\par La transform\'E9e de Hough a fait l'objet d'une \'E9tude th\'E9orique o\'F9 l'on a observ\'E9 les effets des variations dans la position de la directrice de la parabole. Aussi les r\'E9sultats sur les techniques de segmentation pour les deux approc
+hes sont pr\'E9sent\'E9s ici; on peut retrouver les images dont il est question dans l'annexe A.
+\par 
+\par {\b\ul \f1 4.1 Transform\'E9e de Hough}{\f1 }
+\par 
+\par {\b\ul \f1 \tab 4.1.1 Transform\'E9e d'une parabole}{\f1 }
+\par 
+\par On peut voir sur chacune des images deux paraboles dont l'une est th\'E9orique avec son foyer et l'autre repr\'E9sente le contour fictif d'une c\'F4te, voir fig. A.1.  La transform\'E9e de Hough d'une parabole donne un cercle, en prenant le centre 
+de masse du cercle on trouve le foyer de la parabole.  
+\par 
+\par Si on d\'E9place la directrice de la parabole alors le cercle converge de plus en plus vers le foyer.  Dans la d\'E9monstration de Wechsler(8),  au  chapitre 5 de sa th\'E8se,  la position de la directrice de la parabole est fix\'E9e \'E0 l'origine
+. 
+\par 
+\par On fixe la directrice pour les calculs, mais on d\'E9place la parabole. Ainsi la transform\'E9e de Hough forme un cercle dont le centre est le foyer.  Le cercle converge vers un point lorsque la directrice utilis\'E9e dans les calculs se rapproche 
+de la directrice th\'E9orique. Il faut donc utiliser une m\'E9thode de "clustering" pour trouver le centre de masse du nuage de points obtenu, comme on peut le voir dans la parabole dont la directrice se d\'E9place. 
+\par 
+\par {\b\ul \f1 \tab 4.1.2 \'C9tape de pr\'E9traitement}{\f1 }
+\par 
+\par Aucun pr\'E9traitement n'est n\'E9cessaire car on perd l'information directionnelle du gradient en rajoutant du bruit caus\'E9 par le filtre, le filtre passe-haut en est le meilleur exemple. En effet, l'image segment\'E9e a plus de bruit et les con
+tours des structures osseuses sont \'E9paissis. Le filtre m\'E9diant n'apporte pas d'am\'E9lioration notable de la radiographie. La segmentation  perd de sa pr\'E9cision car le bruit que le filtre m\'E9diant a supprim\'E9 efface les contours qui se conf
+ondent avec le bruit.
+\par 
+\par \tab {\f1 }{\b\ul \f1 4.1.3 Segmentation}{\f1 }
+\par 
+\par Les r\'E9sultats de la segmentation, avec ou  sans le crit\'E8re de connectivit\'E9,  apparaissent respectivement aux figures A.3 et A.5.  On remarque qu'il y a moins de bruit mais aussi une perte d'information sur les contours pour la figure A.3 c
+omparativement \'E0 la figure A.5. Le crit\'E8re de connectivit\'E9 permet de rejeter les points qui ne sont pas li\'E9s par la direction du gradient local, ainsi on \'E9limine le bruit.
+\par 
+\par 
+\par {\b\ul \f1 \tab 4.1.4 Transform\'E9e des c\'F4tes}{\f1 }
+\par 
+\par Les images sont obtenues \'E0 partir de l'\'E9tude de la radiographie 1053072 prise \'E0 0 degr\'E9s sans filtrage, comme on peut le voir \'E0 la figure  A.2.  L'\'E9chelle d'accumulation va du gris pour l'accumulation la plus faible, en passant pa
+r le jaune, le rouge, le violet moyen, le violet jusqu'au bleu pour l'accumulation la plus \'E9lev\'E9e.  Les r\'E9sultats actuels ne montrent pas la pr\'E9sence de nuages distincts aussi il est difficile d'en d\'E9terminer les centres de masse. La pr\'E9
+sence d'\'E9l\'E9ments non paraboliques, comme le bruit ou les autres structures,  emp\'EAche la formation des nuages. Malgr\'E9 la limitation de la zone de traitement il y a encore beaucoup de points qui n'appartiennent pas aux c\'F4tes qui contribuent \'E0 
+la transform\'E9e de Hough.  De plus les zones o\'F9 les c\'F4tes se croisent sont difficiles \'E0 traiter puisque les foyers accumul\'E9s se superposent.
+\par D'autre part, en comparant les figures A.4 et A.6  on observe que la convolution du tableau accumulateur n'a pas beaucoup d'effet sur les r\'E9sultats de la transform\'E9e de Hough.  
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par {\b\ul \f1 4.2 Analyse locale}{\f1 }
+\par {\b\ul \f1 }
+\par \tab {\f1 }{\b\ul \f1 4.2.1 Segmentation}{\f1 }
+\par 
+\par  Le probl\'E8me est la pr\'E9sence de bruit et de discontinuit\'E9s. Des tentatives pour \'E9liminer le bruit ont \'E9chou\'E9, telle qu' une subdivision de l'image en 10x10 pour appliquer un seuil local  am\'E8ne des discontinuit\'E9s suppl\'E9men
+taires et une perte d'information sur les c\'F4tes. 
+\par 
+\par L'algorithme de Rosenfeld pour obtenir un seuil optimal modifie l'histogramme d'une image pour qu'il devienne bimodale (avec deux sommets), mais il s'applique mal \'E0 une radiographie. Si on augmente trop le seuil du gradient, la quantit\'E9 d'inf
+ormation diminue et le bruit aussi. 
+\par Certaines portions des c\'F4tes, surtout les c\'F4tes ventrales, ont un gradient plut\'F4t faible et se confondent avec le bruit. En effet la zone o\'F9 le cartillage commence manque beaucoup d'information. D'o\'F9 la n\'E9cessit\'E9 d'un mod\'E8le 
+g\'E9om\'E8trique pour guider la recherche heuristique, c'est la transform\'E9e de Hough qui nous donne ces param\'E8tres.
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par {\b\ul \f1 \tab 4.2.2 Reconnaissance des c\'F4tes}{\f1 }
+\par 
+\par L'algorithme de reconnaissance des c\'F4tes se perd, actuellement il relie les points dont la similarit\'E9 de la pente locale ne d\'E9passe pas 10 %. Ce crit\'E8re de connectivit\'E9 ne suffit pas m\'EAme en favorisant les points \'E0 l'ext\'E9rie
+ur.  Il faut positionner de mani\'E8re tr\'E8s pr\'E9cise le premier point sinon l'algorithme ne fournit aucun r\'E9sultat.  Sans moyen pour guider cette recherche, la pr\'E9sence de structures sous-jacentes et le croisement des c\'F4tes posent un s\'E9
+rieux probl\'E8me \'E0 cette approche. On peut voir \'E0 la fig. A.7 une portion de la c\'F4te num\'E9ris\'E9e. La radiographie 1053072 fait \'E9galement objet de l'\'E9tude pour l'approche locale. En observant les discontinuit\'E9es dans l'image segmen
+t\'E9e, on comprend facilement pourquoi l'algorithme s'est limit\'E9 \'E0 la num\'E9risation d'une portion de la c\'F4te, voir fig. A.3.\par}

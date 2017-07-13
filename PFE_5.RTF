@@ -1,0 +1,79 @@
+{\rtf1\ansi \deff0{\fonttbl{\f0\froman Times New Roman;}{\f1\fswiss Arial;}}{\colortbl \red0\green0\blue0;}{\stylesheet{\s0\cf0\lotusoutlinelevel0 Body Text;}{\s1\cf0\lotusoutlinelevel0 Body Single;}{\s2\cf0\lotusoutlinelevel0 \li288 Bullet;}{\s3
+\cf0\lotusoutlinelevel0 \li576 Bullet 1;}{\s4\cf0\lotusoutlinelevel0 \li720 Number List;}{\s5\cf0\b\i\sb72\sa72\lotusoutlinelevel2 Subhead;}{\s6\f1\fs36\cf0\b\sb144\sa72\lotusoutlinelevel1\keep\keepn Title;}{\s7\cf0\lotusoutlinelevel0 Header;}{\s8\cf0
+\lotusoutlinelevel0 Footer;}}\ftnbj \pgnstart31 \margl1440 \margr1440 \sectd {\header {\field{\*\fldinst page \\*arabic}}\pard\plain \s7\cf0\lotusoutlinelevel0 \qr 
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qc {\b \f1\fs28 }
+\par }\pard\plain \s0\cf0\lotusoutlinelevel0 \qc \sl480 {\b\caps \f1\fs28 CHAPITRE 5}
+\par {\b\caps \f1\fs28 Recommandations}{\f1\fs28 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 {\f0 }
+\par {\f0 Pour am\'E9liorer la num\'E9risation des c\'F4tes, trois alternatives sont propos\'E9es ici.  Pour la transform\'E9e de Hough} une analyse des textures permettrait une nette am\'E9lioration en terme de bruit; aussi un mod\'E8le param\'E9trique 
+faciliterait la d\'E9tection de certains contours.  L'analyse locale peut b\'E9n\'E9ficier de l'apport d'information des radiographies prises \'E0 20 degr\'E9s d'inclinaison. Aussi une squelettisation avec des techniques de segmentation des r\'E9gions p
+ermettent de relier les segments obtenus par un moindre carr\'E9.  La derni\'E8re alternative consiste \'E0 former un r\'E9seau neuronale qui faciliterait la d\'E9tection des foyers des paraboles dans les images de la transform\'E9e de Hough.
+\par {\f0 }
+\par {\f0 }
+\par {\b\ul \f1 5.1 Am\'E9lioration pour la transform\'E9e de Hough}{\f1 }
+\par 
+\par Pour \'E9viter la contribution des faux contours et pour renforcer la pr\'E9sence des contours difficiles \'E0 d\'E9tecter dans la transform\'E9e de Hough, il faut introduire un nouveau crit\'E8re dans la segmentation. En effet, en analysant les te
+xtures \'E0 l'int\'E9rieur et \'E0 l'ext\'E9rieur du contour on peut rejeter les faux contours.  La diff\'E9rence de texture dans le voisinage d'un contour est une caract\'E9ristique du contour d'une c\'F4te, puisque ce contour est une fronti\'E8re entr
+e une texture de c\'F4te et une texture intercostale.  La similitude des textures indique que le contour se trouve dans une r\'E9gion intercostale donc il doit \'EAtre rejet\'E9. 
+\par M\'EAme si l'analyse de la texture peut diminuer la contribution des faux contours, elle ne trouve pas les contours manquants, ceux qui sont difficiles \'E0 d\'E9tecter. Par exemple la d\'E9tection des deux paires inf\'E9rieures des c\'F4tes dorsal
+es du poumon gauche sont cach\'E9es par la pr\'E9sence du coeur. Un mod\'E8le de la cage thoracique facilite grandement cette d\'E9tection.  Un mod\'E8le param\'E9trique peut indiquer combien il y a de contours \'E0 d\'E9tecter ainsi que la position des 
+c\'F4tes les unes par rapport aux autres.  Ce mod\'E8le devrait inclure \'E9galement des informations sur les dimensions de la cage thoracique telle que la distance relative entre les contours des c\'F4tes. 
+\par 
+\par On a vu que la position de la directrice est un param\'E8tre important dans la transform\'E9e de Hough, or cette position varie selon les c\'F4tes.  Aussi on peut utiliser le mod\'E8le param\'E9trique de la cage thoracique pour d\'E9terminer  la po
+sition approximative de la directrice pour chacun des contours des c\'F4tes.  Cela permettra de concentrer beaucoup plus les nuages de points, car lorsque la directrice approximative tend vers la directrice th\'E9orique la transform\'E9e de Hough conver
+ge vers un point qui est en fait le foyer de la parabole. On pourra utiliser des techniques de "clustering" pour trouver les centres de masse des nuages de points dans l'image de la transform\'E9e de Hough. 
+\par Aussi l'approche de Wechsler devrait faire l'objet de recherches plus approfondies en ce qui concerne la transform\'E9e de Hough.
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par {\b\ul \f1 5.2 Am\'E9lioration pour l'analyse locale}{\f1 }
+\par 
+\par L'analyse locale a l'avantage d'\'EAtre la m\'E9thode la plus simple, pour lui permettre d'obtenir des r\'E9sultats plus int\'E9ressants on peut utiliser l'information des radiographies \'E0 0 et \'E0 20 degr\'E9s. En effet les radiographies qui on
+t \'E9t\'E9 trait\'E9es dans le projet sont toutes prises sans inclinaison de la table. Or on peut prendre des radiographies avec une inclinaison de la table de 20 degr\'E9s ce qui nous donne des informations suppl\'E9mentaires sur les c\'F4tes. On proj\'E8
+te la radiographie sur un plan \'E0 0 degr\'E9 pour avoir une information compatible avec l'autre radiographie.  En combinant les informations des deux radiographies on peut produire une image segment\'E9e avec plus de contours et moins de bruit.
+\par 
+\par Une autre am\'E9lioration consiste \'E0 diminuer la r\'E9solution de la radiographie c'est-\'E0-dire former une image avec  la moyenne des 4 intensit\'E9s voisines. Ensuite on applique une squelettisation de l'image segment\'E9e ce qui diminue le b
+ruit et r\'E9duit la pr\'E9sence de discontinuit\'E9 dans les contours des c\'F4tes. On obtient ainsi une information approximative sur les contours des c\'F4tes qui peut \'EAtre ensuite raffin\'E9e en analysant localement l'image \'E0 pleine r\'E9solut
+ion.   On peut aussi utiliser des techniques de segmentation des r\'E9gions avec un crit\'E8re d'homog\'E9n\'E9it\'E9. Le crit\'E8re d\'E9termine si les pixels sont similaires \'E0 75%, si ils satisfont ce crit\'E8re alors on forme une r\'E9gion. Ces te
+chniques peuvent \'EAtre appliqu\'E9es sur l'image apr\'E8s squelettisation.  Il est important que la squelettisation s'applique apr\'E8s avoir diminu\'E9 la r\'E9solution de l'image car \'E0 pleine r\'E9solution il y a trop de bruit et de discontinuit\'E9
+s dans l'image segment\'E9e. On peut produire une table des segments et relier les segments par un moindre carr\'E9. 
+\par \'C0 partir d'un ensemble de points(x{\dn6 i}, y{\dn6 i}) appartenant aux segments, on cherche deux constantes C{\dn6 0} et C{\dn6 1} telles que la fonction d'erreur E, d\'E9finit par l'\'E9quation 5.1, soit minimis\'E9e :
+\par 
+\par {\pict\wmetafile8\picw4418\pich522\picwgoal2507\pichgoal296\piccropt-224\piccropb238\piccropr93\box\brdrhair\brdrcf0 01000900000312030000080015000000000004000000030108000700000016041A016E0900000000050000000D028FFB64FF0D000000FB0200000000000000000000
+00000000000000010044040000002D010000030000001E0015000000FB0260FF0000000000009001000000000702011254696D6573204E657720526F6D616E000200040000002D01010015000000FB0210FF0000000000009001000000000302011254696D6573204E657720526F6D616E008C30040000002D010200040000
+000801000015000000FB0210FF0000000000009001010000000702011254696D6573204E657720526F6D616E006600040000002D010300040000000801000010000000FB0210FF0000000000009001000000020702011253796D626F6C0008040000002D0104000400000008010000040000002D0102000400000008010000
+15000000FB0298FE0000000000009001000000000702011254696D6573204E657720526F6D616E00F42F040000002D010500040000000801000010000000FB0298FE0000000000009001000000020702011253796D626F6C005A040000002D0106000400000008010000040000002D0104000400000008010000040000002D
+0103000400000008010000040000002D0101000400000008010000040000002D0102000400000008010000040000002D0104000400000008010000040000002D0103000400000008010000040000002D0101000400000008010000040000002D0102000400000008010000040000002D010300040000000801000015000000
+FB0260FF0000000000009001010000000702011254696D6573204E657720526F6D616E007E0B040000002D0107000400000008010000040000002D0102000400000008010000040000002D0104000400000008010000040000002D0103000400000008010000040000002D0107000400000008010000040000002D01020004
+00000008010000040000002D0104000400000008010000040000002D0102000400000008010000040000002D0101000400000008010000040000002D0102000400000008010000040000002D0101000400000008010000040000002701FFFF040000002D0101000400000008010000040000002D010000030000001E000400
+00002D010100040000002D010000030000001E00040000002D010100040000002D010000030000001E00040000002D010100060000002606150002000100040000002E0118000400000002010100070000001604BDF2C818D5F3520F05000000090200000000050000000902FF000000040000002D01030004000000080100
+0007000000210501004500F5F2520F040000002D010400040000000801000007000000210501003D00F5F29510040000002D0102000400000008010000040000002D010600040000000801000007000000210501005300D4F2BF11040000002D010400040000000801000007000000210501002800F5F21F13070000002105
+01002800F5F29D13040000002D010300040000000801000007000000210501004300F5F21B14040000002D010100040000000801000007000000210501003000D7F22515040000002D010400040000000801000007000000210501002B00F5F20016040000002D010300040000000801000007000000210501004300F5F217
+17040000002D010100040000000801000007000000210501003100D7F22118040000002D010300040000000801000007000000210501007800F5F2AE18040000002D010700040000000801000007000000210501006900D7F26D19040000002D010400040000000801000007000000210501002900F5F2C719070000002105
+01002D00F5F2931A040000002D010300040000000801000007000000210501007900F5F2AA1B040000002D010700040000000801000007000000210501006900D7F2691C040000002D010400040000000801000007000000210501002900F5F2C31C040000002D0101000400000008010000070000002105010032004EF350
+1D05000000090200000000060000002606150002000E60040000002701FFFF040000002D0101000400000008010000040000002701FFFF040000002D0101000400000008010000040000002701FFFF040000002D0101000400000008010000040000002D010000030000000000}\pard\plain \s0\cf0
+\lotusoutlinelevel0 \qc \sl480 
+\par \'E9q. 5.1
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 Minimiser la fonction E revient \'E0 trouver une ligne droite telle que la somme des carr\'E9s des distances verticales de chaque point \'E0 la ligne soit minimale.  On peut \'E9tendre cette approch
+e pour un polyn\'F4me de degr\'E9 k.
+\par 
+\par {\b\ul \f1 5.3 R\'E9seau de neurones}{\f1 }
+\par 
+\par Un r\'E9seau de neurones peut faciliter grandement l'\'E9tude des radiographies. Aussi apr\'E8s avoir segment\'E9 l'image on lui applique une transform\'E9e de Hough dont on veut d\'E9terminer les foyers de paraboles.  Pour l'apprentissage du syst\'E8
+me neuronale on fournit des images de la transform\'E9e de Hough dont on connait les foyers r\'E9sultants. Le r\'E9seau compare l'image qu'il produit avec l'image th\'E9orique des foyers connus et il modifie les valeurs contenues dans ses cellules en fo
+nction de la diff\'E9rence entre l'image produite et l'image th\'E9orique. Apr\'E8s avoir entra\'EEn\'E9 le r\'E9seau \'E0 reconna\'EEtre les foyers de paraboles dans les images de la transform\'E9e de Hough, on observe les r\'E9sultats sur des images q
+ue le r\'E9seau n'a jamais analys\'E9.  Les r\'E9seaux neuronaux sont tr\'E8s efficaces dans la reconnaissance de formes, aussi cette approche convient tr\'E8s bien au probl\'E8me de la reconnaissance des foyers dans la transformation de Hough qui est u
+ne \'E9tape dans la reconnaissance des c\'F4tes. On peut aussi essayer d'utiliser la m\'EAme approche \'E0 partir d'une image segment\'E9e pour essayer d'obtenir les contours des c\'F4tes, ce qui semble trop ambitieux.
+\par {\b\ul \f1 5.4 Recommandations}{\f1 }
+\par 
+\par L'approche de Wechsler(8) est tr\'E8s prometteuse, cependant elle est suffisament complexe pour demander des \'E9tudes approfondies sur le sujet.  La transform\'E9e de Hough demande un traitement suppl\'E9mentaire pour d\'E9terminer la position des 
+foyers des paraboles, il est sugg\'E9r\'E9 d'analyser la texture   lors de la segmentation, on diminuerait beaucoup la contribution des autres structures et des tissus. Aussi avec un mod\'E8le param\'E9trique on aurait une bonne approximation pour la po
+sition de la directrice dans la calcul de la transform\'E9e ce qui contribue \'E0 faire converger d'avantage le nuage de points vers un point unique : le foyer.   L'analyse locale peut utiliser l'information des radiographies \'E0 20 degr\'E9s d'inclina
+ison, on peut exp\'E9rimenter aussi d'autres techniques telles que la squelettisation ou encore la segmentation des r\'E9gions.   Finalement un r\'E9seau de neurones est propos\'E9 dans l'approche de la transform\'E9e de Hough pour d\'E9terminer la posi
+tion des foyers. Ce r\'E9seau  pourait aussi servir \'E0 d\'E9terminer directement la num\'E9risation des c\'F4tes \'E0 partir de l'image segment\'E9e.
+\par 
+\par 
+\par \par}

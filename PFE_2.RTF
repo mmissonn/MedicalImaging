@@ -1,0 +1,28 @@
+{\rtf1\ansi \deff0{\fonttbl{\f0\froman Times New Roman;}{\f1\fswiss Arial;}}{\colortbl \red0\green0\blue0;}{\stylesheet{\s0\cf0\lotusoutlinelevel0 Body Text;}
+{\s1\cf0\lotusoutlinelevel0 Body Single;}{\s2\cf0\lotusoutlinelevel0 \li288 Bullet;}{\s3\cf0\lotusoutlinelevel0 \li576 Bullet 1;}{\s4\cf0\lotusoutlinelevel0 \li720 Number List;}{\s5\cf0\b\i\sb72\sa72\lotusoutlinelevel2 Subhead;}{\s6\f1\fs36\cf0\b\sb144
+\sa72\lotusoutlinelevel1\keep\keepn Title;}{\s7\cf0\lotusoutlinelevel0 Header;}{\s8\cf0\lotusoutlinelevel0 Footer;}{\s9\cf0\lotusoutlinelevel0 Table Text;}}\ftnbj \pgnstart5 \margl1440 \margr1440 \sectd {\header {\field{\*\fldinst page \\*arabic}}\pard\plain \s0\cf0\lotusoutlinelevel0 \qr 
+\par }\pard\plain \s0\cf0\lotusoutlinelevel0 \qc \sl480 \tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640 {\b \f1\fs28 CHAPITRE 2}
+\par {\b \f1\fs28 REVUE DE LA DOCUMENTATION}{\f1\fs28 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 \tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640 
+\par L'extraction d'objet est un probl\'E8me commun au domaine de la  vision artificielle, les approches sont nombreuses. Il y a trois \'E9tapes \'E0 l'analyse d'image : le pr\'E9traitement, la segmentation, et l'extraction. La th\'E8se d'Harry Wechsler
+(8) pour l'interpr\'E9tation des radiographies utilise des techniques de segmentation bas\'E9e sur les ar\'EAtes pour avoir une image de contours. La m\'E9thode de Hough  permet d'extraire des contours approximatifs des c\'F4tes qui sont ensuite raffin\'E9
+s par la recherche heuristique.  
+\par 
+\par 
+\par {\b\ul \f1 2.1 Pr\'E9traitement de l'image}{\f1 }
+\par 
+\par La radiographie doit \'EAtre manipul\'E9e de mani\'E8re \'E0 faire bien ressortir les contours pour pouvoir d\'E9terminer les c\'F4tes. Les changements rapides d'intensit\'E9 constituent de bons indices pour trouver les contours. En appliquant la t
+ransform\'E9e de Fourier sur  l'image digitalis\'E9e, puis en la convoluant avec un filtre passe-haut, et enfin en appliquant la transform\'E9e inverse de Fourier on obtient une image de contours. La figure 2.1 montre l'approche de Wechsler(8) avec le d
+iagramme bloc de l'\'E9tape de pr\'E9traitement.
+\par 
+\par {\trowd \intbl \trqc\trgaph43 \clbrdrt\brdrs\brdrw15 \clbrdrb\brdrs\brdrw15 \clbrdrl\brdrs\brdrw15 \clbrdrr\brdrs\brdrw15 \cellx8767\pard\plain \intbl \s0\cf0\lotusoutlinelevel0 \qc \tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200
+\tx7920\tx8640 Transform\'E9e de Fourier ====> Filtre passe-haut ====> Transform\'E9e inverse de Fourier\cell \row }\pard\plain \s0\cf0\lotusoutlinelevel0 \sl480 \tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640 \pard
+\plain \s0\cf0\lotusoutlinelevel0 \qc \sl480 \tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640 Fig. 2.1 Pr\'E9traitement  de Wechsler
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 \tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640 {\b\ul \f1 2.2}{\f1 }{\b\ul }{\b\ul \f1  La segmentation}{\f1 } 
+\par 
+\par Pour pouvoir interpr\'E9ter une image \'E0 un niveau \'E9lev\'E9, il faut s\'E9parer les objets du fond. Cette op\'E9ration s'appelle segmentation, il existe trois approches distinctes : La m\'E9thode bas\'E9e sur les ar\'EAtes pour localiser les d
+iscontinuit\'E9s dans les propri\'E9t\'E9s de l'image,  la m\'E9thode bas\'E9e sur les r\'E9gions obtenues en regroupant les pixels ayant des similarit\'E9s, et la multir\'E9solution. Les techniques de multir\'E9solution examinent l'image \'E0 diff\'E9r
+entes r\'E9solutions pour avoir une vue globale. Une basse r\'E9solution donne un aspect g\'E9n\'E9ral alors qu'une haute r\'E9solution fournit les d\'E9tails manquant pour raffiner la segmentation.
+\par 
+\par 
+\par {\b\i\ul \tab }{\b\i\ul \f1 }{\b\ul \f1 2.2.1 M\'E9thode bas\'E9e sur les ar\'EAtes}{\f1 }\par}

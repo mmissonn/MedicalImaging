@@ -1,0 +1,43 @@
+{\rtf1\ansi \deff0{\fonttbl{\f0\froman Times New Roman;}{\f1\fswiss Arial;}}{\colortbl \red0\green0\blue0;}{\stylesheet{\s0\cf0\lotusoutlinelevel0 Body Text;}{\s1\cf0\lotusoutlinelevel0 Body Single;}{\s2\cf0\lotusoutlinelevel0 \li288 Bullet;}{\s3
+\cf0\lotusoutlinelevel0 \li576 Bullet 1;}{\s4\cf0\lotusoutlinelevel0 \li720 Number List;}{\s5\cf0\b\i\sb72\sa72\lotusoutlinelevel2 Subhead;}{\s6\f1\fs36\cf0\b\sb144\sa72\lotusoutlinelevel1\keep\keepn Title;}{\s7\cf0\lotusoutlinelevel0 Header;}{\s8\cf0
+\lotusoutlinelevel0 Footer;}}\ftnbj \pgnstart2 \margl1440 \margr1440 \sectd {\header {\field{\*\fldinst page \\*arabic}}\pard\plain \s0\cf0\lotusoutlinelevel0 \qr 
+\par 
+\par }\pard\plain \s0\cf0\lotusoutlinelevel0 \qc \sl480 {\b \f1\fs28 CHAPITRE 1}{\f1\fs28 }
+\par {\b \f1\fs28 INTRODUCTION}{\f1\fs28 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 {\b\ul \f1 }
+\par {\b\ul \f1 1.1 Domaine  biom\'E9dical}{\f1 }
+\par {\b\ul \f1 }
+\par Le domaine de l'ing\'E9nierie biom\'E9dicale contient une multitude d'applications pour le traitement d'images par ordinateur. Reconstruire des objets \'E0 partir de leur projections, d\'E9tecter de grandes opacit\'E9s dans la r\'E9gion du poumon, 
+mesurer le volume pulmonaire et la taille du coeur, ou analyser des chromosomes ne sont que quelques exemples de traitement d'image. L'\'E9tude des maladies est une des motivations pour utiliser ces outils qui permettent de repr\'E9senter l'information 
+m\'E9dicale sous une forme plus \'E9tendue. 
+\par 
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \sl480 {\b\ul \f1 1.2  \'C9tude de la scoliose}{\f1 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 
+\par La scoliose est une maladie qui donne lieu \'E0 une d\'E9formation de la colonne vert\'E9brale. Cette maladie  frappe essentiellement les jeunes filles dans des proportions relativement inqui\'E9tantes. Dans l'espoir de mieux cerner le probl\'E8me, 
+les chercheurs ont besoins d'outils informatiques pour \'E9tudier les radiographies.  L'\'E9tude de la scoliose demande la mod\'E9lisation en trois dimensions du thorax. Aussi pour obtenir cette mod\'E9lisation, il est n\'E9cessaire de num\'E9riser plus
+ieurs points sur les c\'F4tes d'une radiographie. Le proc\'E9d\'E9 actuellement est manuel, la personne a besoin d'une certaine exp\'E9rience pour entrer de mani\'E8re pr\'E9cise les points sur les contours des c\'F4tes. Ainsi il faut entrer une dizaine 
+de points par contour pour chacune des c\'F4tes du thorax. 
+\par Le temps pour traiter ces radiographies, dont le nombre est sans cesse croissant, est beaucoup trop long et manque de pr\'E9cision.  Aussi un proc\'E9d\'E9 de num\'E9risation automatique des c\'F4tes est une alternative logique \'E0 ce probl\'E8me.
+\par 
+\par 
+\par {\b\ul \f1 1.3 Objectifs du projet}{\f1 }
+\par 
+\par Le projet consiste \'E0 exp\'E9rimenter deux approches pour d\'E9tecter et num\'E9riser les contours d'une c\'F4te dans une radiographie. Son but est d'obtenir les coordonn\'E9es des points formant les contours des c\'F4tes pour construire un mod\'E8
+le tri-dimensionnel de la cage thoracique.  Les contours num\'E9ris\'E9s doivent \'EAtre suffisament pr\'E9cis pour la construction du mod\'E8le.
+\par 
+\par 
+\par {\b\ul \f1 1.4 M\'E9thodologie}{\f1 }
+\par 
+\par Ce rapport porte sur l'exp\'E9rimentation de deux techniques en analyse d'image : soit la transform\'E9e de Hough et l'analyse locale. Leur but est de contribuer \'E0  la solution pour la num\'E9risation des c\'F4tes. La transform\'E9e de Hough s'i
+nscrit dans l'approche de Wechsler. La radiographie subie un pr\'E9traitement, puis une segmentation ainsi qu'une transform\'E9e de Hough. Ensuite les \'E9l\'E9ments des contours sont assembl\'E9s puis raffin\'E9s par une recherche heuristique. La derni\'E8
+re \'E9tape consiste \'E0 relier les c\'F4tes dorsales et ventrales. L'\'E9tude pr\'E9sent\'E9e ici comporte toutes les \'E9tapes jusqu'\'E0 la transform\'E9e de Hough. 
+\par L'approche avec l'analyse locale se veut une r\'E9ponse simple au probl\'E8me en comparaison avec l'approche de Wechsler. Elle comporte un pr\'E9traitement, une segmentation ainsi qu'une recherche de contours par l'analyse locale.
+\par 
+\par 
+\par {\b\ul \f1 1.5 D\'E9marche}{\f1 }
+\par 
+\par Le prochain chapitre d\'E9crit les diff\'E9rentes approches en vision artificielle qui existent pour extraire un objet dans une image. Le chapitre 3 d\'E9crit en d\'E9tail la m\'E9thodologie employ\'E9e pour les deux approches, soit l'approche de W
+echsler et l'analyse locale.  Les r\'E9sultats de la num\'E9risation apparaissent au chapitre 4. On peut y voir les radiographies apr\'E8s segmentation ainsi que les images apr\'E8s la transformation de Hough. Dans le dernier chapitre on examine les sol
+utions possibles pour am\'E9liorer ou remplacer les approches utilis\'E9es. 
+\par 
+\par \par}

@@ -1,0 +1,29 @@
+{\rtf1\ansi \deff0{\fonttbl{\f0\froman Times New Roman;}{\f1\fswiss Arial;}}{\colortbl \red0\green0\blue0;}{\stylesheet{\s0\cf0\lotusoutlinelevel0 Body Text;}{\s1\cf0\lotusoutlinelevel0 Body Single;}{\s2\cf0
+\lotusoutlinelevel0 \li288 Bullet;}{\s3\cf0\lotusoutlinelevel0 \li576 Bullet 1;}{\s4\cf0\lotusoutlinelevel0 \li720 Number List;}{\s5\cf0\b\i\sb72\sa72\lotusoutlinelevel2 Subhead;}{\s6\f1\fs36\cf0\b\qc\sb144\sa72\lotusoutlinelevel1\keep\keepn Title;}{\s7
+\cf0\lotusoutlinelevel0 Header;}{\s8\cf0\lotusoutlinelevel0 Footer;}}\ftnbj \pgnstart36 \margl1440 \margr1440 \sectd {\header {\field{\*\fldinst page \\*arabic}}\pard\plain \s0\cf0\lotusoutlinelevel0 \qr 
+\par }\pard\plain \s0\cf0\lotusoutlinelevel0 \qc \sl480 {\b \f1\fs28 CHAPITRE 6}{\f1\fs28 }
+\par {\b \f1\fs28 CONCLUSION}{\f1\fs28 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 
+\par La plupart des applications en sont encore \'E0 la phase de recherche et de plus amples \'E9tudes sont n\'E9cessaires pour num\'E9riser une structure dans une radiographie.   Les r\'E9sultats fournis par les outils informatiques sont directement re
+li\'E9s aux connaissances sur le domaine m\'E9dical incorpor\'E9es dans les algorithmes utilis\'E9s. Une coop\'E9ration \'E9troite entre les informaticiens et les sp\'E9cialistes du domaine est sugg\'E8r\'E9e. Les principaux r\'E9sultats sont r\'E9sum\'E9
+s pour les deux approches abord\'E9es dans la pr\'E9sente \'E9tude.
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \sl480 
+\par {\b\ul \f1 6.1 Transform\'E9e de Hough}{\f1 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 
+\par L'approche avec la transform\'E9e de Hough ne n\'E9cessite pas de pr\'E9traitement sur la radiographie, en effet  l'information directionnelle du gradient diminiue avec l'augmentation du bruit caus\'E9 par le filtre.  La segmentation avec connectiv
+it\'E9  permet d'\'E9liminer le bruit et de rejeter les points qui ne sont pas reli\'E9s ensemble par la direction du gradient, aussi il faut conserver ce crit\'E8re dans l'approche.  Des nuages distincts n'apparaissent pas dans la transform\'E9e de Hou
+gh par la pr\'E9sence des vascularit\'E9s et des autres structures qui apparaissent dans l'image segment\'E9e. Il faudrait analyser les textures dans la radiographie pour rejeter les faux contours, ce nouveau crit\'E8re viendrait s'ajouter lors de l'\'E9
+tape de segmentation.  D'autre part a convolution du tableau accumulateur n'a pas d'effet apparant sur la transform\'E9e de Hough, des essais ult\'E9rieurs \'E0 cette \'E9tude devrait \'EAtre effectu\'E9s.
+\par {\b\ul \f1 6.2 Analyse locale}{\f1 }
+\par 
+\par L'analyse locale, qui est s\'E9duisante par sa simplicit\'E9, ne peut tenir ses promesses. La pr\'E9sence de bruit et de discontinuit\'E9s dans l'image segment\'E9e constitue un obstacle majeur \'E0 cette approche.   La segmentation sans crit\'E8re 
+de connectivit\'E9 ajoute du bruit, mais si on ajoute le crit\'E8re alors on perd des informations sur les contours des c\'F4tes. Il est pr\'E9f\'E9rable de conserver le plus d'information possible avec une segmentation sans crit\'E8re de connectivit\'E9
+.  Malheureusement l'algorithme se perd dans les discontinuit\'E9s de l'image segment\'E9e.  On obtient seulement une portion de la premi\'E8re c\'F4te num\'E9ris\'E9e. 
+\par 
+\par 
+\par {\b\ul \f1 6.3 Contribution au domaine biom\'E9dical}{\f1 }
+\par 
+\par Cette \'E9tude a contribu\'E9 au domaine biom\'E9dical en pr\'E9sentant des techniques avanc\'E9es en segmentation directionnelle. Elle a l'avantage d'\'EAtre pionni\'E8re dans un domaine o\'F9 la recherche n'a pas encore aboutit \'E0 des r\'E9sult
+ats significatifs.  L'exp\'E9rimentation de ces deux approches diff\'E9rentes nous montre les obstacles et les d\'E9fis que  les chercheurs devront relever pour arriver \'E0 num\'E9riser les c\'F4tes dans un milieu tr\'E8s bruit\'E9. 
+\par 
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \par}

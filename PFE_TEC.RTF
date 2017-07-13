@@ -1,0 +1,1935 @@
+{\rtf1\ansi \deff0{\fonttbl{\f0\froman Times New Roman;}{\f1\fswiss Arial;}}{\colortbl \red0\green0\blue0;}{\stylesheet{\s0\cf0\lotusoutlinelevel0 Body Text;}{\s1\cf0\lotusoutlinelevel0 Body Single;}{\s2\cf0\lotusoutlinelevel0 
+\li288 Bullet;}{\s3\cf0\lotusoutlinelevel0 \li576 Bullet 1;}{\s4\cf0\lotusoutlinelevel0 \li720 Number List;}{\s5\cf0\b\i\sb72\sa72\lotusoutlinelevel2 Subhead;}{\s6\f1\fs36\cf0\b\qc\sb144\sa72\lotusoutlinelevel1\keep\keepn Title;}{\s7\cf0
+\lotusoutlinelevel0 Header;}{\s8\cf0\lotusoutlinelevel0 Footer;}{\s9\f1\fs28\cf0\b\ul\lotusoutlinelevel0 Titre 1;}}\ftnbj \margl1440 \margr1440 \sectd {\header {\field{\*\fldinst page \\*arabic}}\pard\plain \s0\cf0\lotusoutlinelevel0 \qr 
+\par }\pard\plain \s0\cf0\lotusoutlinelevel0 \qc \sl480 {\ul \f1 \'C9COLE POLYTECHNIQUE}{\f1  }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qc {\f1 }
+\par {\ul \f1 DE MONTR\'C9AL}{\f1 }
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par {\b \f1\fs32 Num\'E9risation automatique des c\'F4tes }
+\par {\b \f1\fs32 dans une radiographie digitale}{\f1\fs32 }
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par R\'C9F\'C9RENCES TECHNIQUES
+\par 
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \li5040 Pr\'E9sent\'E9 par \tab \tab : {\ul Marc Missonnier}     Matricule \tab \tab : {\ul 45302}                      Directeur de projet \tab : {\ul Andr\'E9 Beauchamps}
+\par Groupe de recherche \tab : {\ul Orthobiom}
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par Date : 18/04/94
+\par 
+\par \pard\plain \s9\f1\fs28\cf0\b\ul\lotusoutlinelevel0 \qj \sl480 {\f1 1.0 Manuel d'utilisation}
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 
+\par Le programme num(num\'E9risation automatique des c\'F4tes) fonctionne sous XWindows, il est compil\'E9 pour fonctionner avec la plateforme des Silicon Graphics IRIX. On peut facilement le recompiler pour le faire fonctionner sous d'autres plateform
+es car les librairies Xlib sont portables. Pour l'appeler il suffit de taper la ligne de commande suivante : 
+\par \tab num <Radiographie.igb|Rx>  
+\par La radiographie appara\'EEt dans un premier temps. Puis le programme attend l'entr\'E9e de 2 points pour limiter le thorax de l'entr\'E9e de deux autres points pour limiter le traitement des c\'F4tes dans la zone du thorax. On appuie ensuite sur la 
+touche ESC pour voir appara\'EEtre l'image segment\'E9e. On appuie de nouveau sur ESC pour voir la transform\'E9e de Hough.  Le programme g\'E9n\'E9re deux fichiers apr\'E8s le traitement:  bin.igb et foyer.igb. Le fichier bin.igb repr\'E9sente l'image 
+segment\'E9e et foyer.igb l'accumulation des foyers de parabole(la transform\'E9e de Hough). Le code source est disponible dans ~rama/VersionHough/hough.c pour num\'E9risation avec la transform\'E9e de Hough, voir chapitre 3. Et on trouve dans ~rama/Ver
+sionLocale/locale.c le code source pour l'approche avec l'analyse locale.  La version avec l'analyse locale est appell\'E9e en invoquant la commande : 
+\par \tab num <Radiographie.igb|Rx> 
+\par La radiographie appara\'EEt d'abord au d\'E9but; en appuyant sur ESC la premi\'E8re fois l'image segment\'E9e est affich\'E9e. En appuyant une autre fois sur ESC c'est la portion de c\'F4te num\'E9ris\'E9e qui appara\'EEt.  Les images sont disponib
+les en format radiographie .igb ou Rx \'E0 l'E.T.S (~rama/images ) \'E0 l'adresse Internet gpa.etsmtl.ca.
+\par 
+\par \pard\plain \s9\f1\fs28\cf0\b\ul\lotusoutlinelevel0 \qj \sl480 2.0 R\'E9f\'E9rences techniques
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 
+\par \pard\plain \s9\f1\fs28\cf0\b\ul\lotusoutlinelevel0 \qj \sl480 \tab 2.1 Algorithmes pour l'approche avec la transform\'E9e de Hough
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 
+\par L'algorithme du module principal comporte 5 \'E9tapes :
+\par - afficher la radiographie et entrer les points limitant le thorax et les c\'F4tes
+\par - segmentation
+\par - seuillage
+\par - transform\'E9e de Hough
+\par - afficher et sauvegarder  l'image segment\'E9e et  l'image \'E0 accumulation de foyers
+\par 
+\par Le processus de{\b\ul  segmentation} est d\'E9crit ci-dessous :
+\par - pour tous les points de la radiographie
+\par | \tab - calcule le module et la phase du gradient(op\'E9rateur de Sobel)
+\par | \tab - calcule la pente locale
+\par | \tab - d\'E9termine le cadran selon la pente de la courbe
+\par | \tab - calcule le Laplacien
+\par 
+\par 
+\par 
+\par 
+\par 
+\par Le {\b\ul seuillage} est donn\'E9 ici :
+\par - pour tous les points de l'image segment\'E9e
+\par |\tab - si le module du gradient est plus grand ou \'E9gal au seuil fix\'E9
+\par | \tab |\tab - si la direction du gradient est semblable \'E0 10 % dans le voisinage du point
+\par | \tab |\tab |\tab - si le point appartient au cadran 1 ou 3
+\par | \tab |\tab | \tab |\tab - si  le Laplacien est plus grand ou \'E9gal au seuil fix\'E9
+\par |\tab |\tab |\tab | \tab |\tab - l'image segment\'E9e est marqu\'E9e comme contour externe
+\par |\tab |\tab |\tab |\tab |\tab   de c\'F4te dorsale poumon gauche ou ventrale poumon droit
+\par |\tab |\tab |\tab |\tab - sinon
+\par |\tab |\tab |\tab |\tab | \tab - l'image segment\'E9e est marqu\'E9e comme contour interne
+\par |\tab |\tab |\tab |\tab |\tab   de c\'F4te dorsale poumon gauche ou ventrale poumon droit
+\par | \tab |\tab | \tab - sinon
+\par |\tab |\tab | \tab |\tab - si  le Laplacien est plus grand ou \'E9gal au seuil fix\'E9
+\par |\tab |\tab |\tab | \tab |\tab - l'image segment\'E9e est marqu\'E9e comme contour interne
+\par |\tab |\tab |\tab |\tab |\tab   de c\'F4te dorsale poumon droit ou ventrale poumon gauche
+\par |\tab |\tab |\tab |\tab - sinon
+\par |\tab |\tab |\tab |\tab | \tab - l'image segment\'E9e est marqu\'E9e comme contour externe
+\par |\tab |\tab |\tab |\tab |\tab   de c\'F4te dorsale poumon droit ou ventrale poumon gauche
+\par | \tab |\tab - sinon
+\par |\tab |\tab |\tab - l'image segment\'E9e est marqu\'E9e \'E0 0 \tab 
+\par |\tab - sinon
+\par |\tab |\tab - l'image segment\'E9e est marqu\'E9e \'E0 0 \tab 
+\par 
+\par La {\b\ul transform\'E9e de Hough} est donn\'E9e ci-dessous :
+\par - initialiser le tableau accumulateur
+\par - positionnement de la directice de la parabole relativement \'E0 la position du thorax
+\par - pour tous les points situ\'E9s dans le poumon droit
+\par |\tab - si l'image segment\'E9e n'est pas nulle et que le point appartient au cadran 4
+\par |\tab | \tab - calcule la position du foyer de la parabole
+\par |\tab |\tab - examine la similarit\'E9 des points voisins
+\par |\tab |\tab - attribue un poids selon la connectivit\'E9 avec ses voisins
+\par |\tab |\tab - ajoute ce poids dans le tableau accumulateur aux coordonn\'E9es courantes
+\par - pour tous les points situ\'E9s dans le poumon gauche
+\par |\tab - si l'image segment\'E9e n'est pas nulle et que le point appartient au cadran 3
+\par |\tab | \tab - calcule la position du foyer de la parabole
+\par |\tab |\tab - examine la similarit\'E9 des points voisins
+\par |\tab |\tab - attribue un poids selon la connectivit\'E9 avec ses voisins
+\par |\tab |\tab - ajoute ce poids dans le tableau accumulateur aux coordonn\'E9es courantes
+\par - convolution du tableau accumulateur 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par \pard\plain \s9\f1\fs28\cf0\b\ul\lotusoutlinelevel0 \qj \sl480 \tab 2.2 Algorithmes pour l'approche avec l'analyse locale
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 
+\par L'analyse locale demande 5 \'E9tapes :
+\par - affichage de la radiographie et entr\'E9e de 3  points limitant une c\'F4te
+\par - segmentation
+\par - seuillage
+\par - analyse locale
+\par - affichage et sauvegarde de l'image segment\'E9e et de la c\'F4te num\'E9ris\'E9e
+\par 
+\par Le processus de{\b\ul  segmentation} est d\'E9crit ci-dessous :
+\par - pour tous les points de la radiographie
+\par | \tab - calcule le module et la phase du gradient(op\'E9rateur de Sobel)
+\par | \tab - calcule la pente locale
+\par | \tab - d\'E9termine le cadran selon la pente de la courbe
+\par | \tab - calcule le Laplacien
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par Le {\b\ul seuillage} est donn\'E9 ici :
+\par - pour tous les points de l'image segment\'E9e
+\par |\tab - si le module du gradient est plus grand ou \'E9gal au seuil fix\'E9
+\par |\tab |\tab - si le point appartient au cadran 1 ou 3
+\par |\tab | \tab |\tab - si  le Laplacien est plus grand ou \'E9gal au seuil fix\'E9
+\par |\tab |\tab | \tab |\tab - l'image segment\'E9e est marqu\'E9e comme contour externe
+\par |\tab |\tab |\tab |\tab   de c\'F4te dorsale poumon gauche ou ventrale poumon droit
+\par |\tab |\tab |\tab - sinon
+\par |\tab |\tab |\tab | \tab - l'image segment\'E9e est marqu\'E9e comme contour interne
+\par |\tab |\tab |\tab |\tab   de c\'F4te dorsale poumon gauche ou ventrale poumon droit
+\par |\tab | \tab - sinon
+\par | \tab |\tab |\tab - si  le Laplacien est plus grand ou \'E9gal au seuil fix\'E9
+\par |\tab |\tab | \tab |\tab - l'image segment\'E9e est marqu\'E9e comme contour interne
+\par |\tab |\tab |\tab |\tab   de c\'F4te dorsale poumon droit ou ventrale poumon gauche
+\par |\tab |\tab |\tab - sinon
+\par |\tab |\tab |\tab | \tab - l'image segment\'E9e est marqu\'E9e comme contour externe
+\par |\tab |\tab |\tab |\tab   de c\'F4te dorsale poumon droit ou ventrale poumon gauche
+\par |\tab - sinon
+\par |\tab |\tab - l'image segment\'E9e est marqu\'E9e \'E0 0 \tab 
+\par 
+\par 
+\par 
+\par 
+\par La d\'E9marche algorithmique de{\b\ul  l'analyse locale} pour la c\'F4te dorsale du poumon droit est d\'E9crite
+\par ci-dessous:
+\par - initialise l'image de la c\'F4te
+\par - le point initial est le premier point entr\'E9 par l'usager
+\par - tant que ce n'est pas la fin
+\par |\tab - d\'E9termine la similarit\'E9 de la direction \'E0 10 % pr\'E8s des voisins
+\par |\tab - la fin est atteinte si le point courant d\'E9passe les limites de la c\'F4te dorsale
+\par \tab ou si il n'y a aucun voisin similaire parmi L1, L2, et D1(voir tableau 3.1)
+\par |\tab - marque le point courant dans l'image de la c\'F4te
+\par |\tab - passe au point suivant dont la similarit\'E9 est \'E9tablie
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par 
+\par \pard\plain \s9\f1\fs28\cf0\b\ul\lotusoutlinelevel0 \qj \sl480 3.0 Code source
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 \qj \sl480 
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 Le code source pour locale.c et hough.c est d\'E9taill\'E9 dans les pages suivantes.\par \page \pard\plain \s0\cf0\lotusoutlinelevel0 \qc {\b \f1 hough.c}{\f1 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 {\fs18 }
+\par {\f0\fs18 /********************** Numerisation Automatique des cotes ********************/}
+\par {\f0\fs18 }
+\par {\f0\fs18 /* }
+\par {\f0\fs18 }
+\par {\f0\fs18 -Version avec segmentation directionnelle et transformee de Hough.}
+\par {\f0\fs18  }
+\par {\f0\fs18 -Description }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab Dans le cadre de la these de Wechsler, le programme effectue une }
+\par {\f0\fs18 \tab segmentation directionnelle et calcule la transformee de Hough }
+\par {\f0\fs18 \tab d'une radiographie. Il affiche la position des foyers de parabole }
+\par {\f0\fs18 \tab des cotes et genere l'image segmentee et l'image des foyers en }
+\par {\f0\fs18 \tab format igb.}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 -Plateforme }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab Le programme a ete concu pour l'environnement X Windows.}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Auteur : Marc Missonnier, matricule 45302, Ecole Polytechnique de Montreal}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Date   : le 10 septembre 1993}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 */}
+\par {\f0\fs18 /******************************************************************************/}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 /********************************** Includes **********************************/}
+\par {\f0\fs18 /* Xlib version 11 */}
+\par {\f0\fs18 #include <X11/X.h>}
+\par {\f0\fs18 #include <X11/Xlib.h>}
+\par {\f0\fs18 #include <X11/keysym.h>}
+\par {\f0\fs18 #include <X11/cursorfont.h>}
+\par {\f0\fs18 #include <X11/Intrinsic.h>}
+\par {\f0\fs18 #include <X11/StringDefs.h>}
+\par {\f0\fs18 #include <X11/Xatom.h>}
+\par {\f0\fs18 #include <X11/Xresource.h>}
+\par {\f0\fs18 #include <X11/MwmUtil.h>}
+\par {\f0\fs18 #include <X11/Shell.h>}
+\par {\f0\fs18 #include <Xm/Xm.h>}
+\par {\f0\fs18 #include <Xm/DrawingA.h>}
+\par {\f0\fs18 #include <X11/Xutil.h>}
+\par {\f0\fs18 #include <X11/Xatom.h>}
+\par {\f0\fs18 #include <X11/Xos.h>}
+\par {\f0\fs18 }
+\par {\f0\fs18 #include <stdio.h>}
+\par {\f0\fs18 #include <string.h>}
+\par {\f0\fs18 #include <malloc.h>}
+\par {\f0\fs18 #include <stdlib.h>}
+\par {\f0\fs18 #include <math.h>}
+\par {\f0\fs18 #include "header.h"}
+\par {\f0\fs18 #include "igb_io.h"}
+\par {\f0\fs18 #include "icon_nac"}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 /******************************************************************************/}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 /********************************** Declarations ******************************/}
+\par {\f0\fs18 }
+\par {\f0\fs18 #define BORDER_W          3     }
+\par {\f0\fs18 #define MAXCOLORS       256}
+\par {\f0\fs18 #define NB_GRAY_NAME    101     /* Nb de niveaux de gris connus */}
+\par {\f0\fs18 }
+\par {\f0\fs18 #define BUFF_SIZE       100     /* Nb de points max a entrer par l'usager */}
+\par {\f0\fs18 #define SEUIL_GRAD       30     /* Seuil sur le module du gradient */}
+\par {\f0\fs18 #define SEUIL_LAP         0     /* Seuil sur le Laplacien */}
+\par {\f0\fs18 #define MAX_SEG         500     /* Nb max de segments sur la cote */}
+\par {\f0\fs18 #define MAX_PTS        1000     /* Nb max de points par segment */}
+\par {\f0\fs18 /******************************************************************************/}
+\par {\f0\fs18 }
+\par {\f0\fs18   }
+\par {\f0\fs18 /********************************** Prototypes ********************************/}
+\par {\f0\fs18 }
+\par {\f0\fs18 extern  short   **igb_read();}
+\par {\f0\fs18 extern  char    *ten2eight_bits();}
+\par {\f0\fs18 void segmente(short**, short**, short**, short**, short**, short**, }
+\par {\f0\fs18 \tab       short, short);}
+\par {\f0\fs18 void seuillage(short**, short**, short**, short**, short**, }
+\par {\f0\fs18 \tab        short, short);}
+\par {\f0\fs18 void hough(short**, short**,short**, short**, short**, short**, }
+\par {\f0\fs18 \tab    short, short, XPoint*);}
+\par {\f0\fs18 void affiche(short**, short, short, short, char*, char**, int, XPoint*, char*);}
+\par {\f0\fs18 void AllocateGrayNamedColor(void);}
+\par {\f0\fs18 void AllocateNamedColorMap( char *cmap_file );}
+\par {\f0\fs18 void SetImageWindow( short dimx, short dimy, char *image );}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 /******************************************************************************/}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 /******************************* Variables globales  **************************/}
+\par {\f0\fs18 }
+\par {\f0\fs18 static char     *progname;}
+\par {\f0\fs18 int             screen_num;}
+\par {\f0\fs18 Display         *display;}
+\par {\f0\fs18 Window          win, root, child;}
+\par {\f0\fs18 unsigned int    keys_buttons;}
+\par {\f0\fs18 GC              gc;}
+\par {\f0\fs18 Pixel           ColorMap[MAXCOLORS];}
+\par {\f0\fs18 }
+\par {\f0\fs18 /******************************************************************************/}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 void main( int argc, char *argv[] )}
+\par {\f0\fs18 \{}
+\par {\f0\fs18 }
+\par {\f0\fs18     int i, j;}
+\par {\f0\fs18     short **buffer;     /* image d'entree */}
+\par {\f0\fs18     short **binaire;    /* image binaire  */}
+\par {\f0\fs18     short **grad_mod, **grad_phase, **laplacien, **cadran, **acc;}
+\par {\f0\fs18     short  dimx, dimy, itype;}
+\par {\f0\fs18     Header head;}
+\par {\f0\fs18     char *nom_fich = "foyer.igb";}
+\par {\f0\fs18 }
+\par {\f0\fs18     char *input_file, *window_name;}
+\par {\f0\fs18     int count;}
+\par {\f0\fs18     XPoint points[BUFF_SIZE]; /* points a entrer sur la cote */}
+\par {\f0\fs18 }
+\par {\f0\fs18     printf("\\n\\nN.A.C : Numerisation Automatique des Cotes\\n");}
+\par {\f0\fs18     printf("\\nEntrer deux points pour limiter le thorax.\\n");}
+\par {\f0\fs18     printf("\\nEntrer deux points pour limiter la zone de traitement.\\n");    }
+\par {\f0\fs18     printf("<ESC> pour finir.\\n");}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* lecture ligne de commande */}
+\par {\f0\fs18     if(argc < 2) }
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab printf("\\nUsage : num fichier<.igb|.Rx>\\n\\n");}
+\par {\f0\fs18 \tab exit(-1);}
+\par {\f0\fs18     \}}
+\par {\f0\fs18 }
+\par {\f0\fs18     input_file = (char *) malloc( strlen(argv[1]) );}
+\par {\f0\fs18     strcpy( input_file, argv[1] );}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18     if ( *input_file == NULL )}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab fprintf( stderr, "\\n\\n%c Error, nom de fichier d'entree manquant.\\n\\n", 0x07 );}
+\par {\f0\fs18 \tab exit( 0 );}
+\par {\f0\fs18     \}}
+\par {\f0\fs18     else}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab /* Verifier si il y a une extension 'igb' */}
+\par {\f0\fs18 \tab if ( strstr( input_file, ".igb" ) == NULL )}
+\par {\f0\fs18 \tab     if ( strstr( input_file, ".Rx" ) == NULL )}
+\par {\f0\fs18 \tab \tab strcat( input_file, ".igb" );}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab /* Rajoute le nom de fichier d'entree au nom de la fenetre */}
+\par {\f0\fs18 \tab window_name = (char *) malloc( strlen( input_file ) + 10 );}
+\par {\f0\fs18 \tab strcpy( window_name, "NAC : " );}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab /* Remonter au premier path */}
+\par {\f0\fs18 \tab count = strlen( input_file );}
+\par {\f0\fs18 \tab while( input_file[count] != '/' && count != 0 )}
+\par {\f0\fs18 \tab     count--;}
+\par {\f0\fs18 \tab if ( count != 0 )}
+\par {\f0\fs18 \tab     strcat( window_name, ".." );}
+\par {\f0\fs18 \tab strcat( window_name, &input_file[count] );}
+\par {\f0\fs18     \}}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Copier le nom du programme */}
+\par {\f0\fs18     progname = argv[0];}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* lecture de l'image d'entree */}
+\par {\f0\fs18     buffer = igb_read(argv[1], &head);}
+\par {\f0\fs18     itype = head.type;}
+\par {\f0\fs18     dimx  = head.x;}
+\par {\f0\fs18     dimy  = head.y;}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* allocation memoire */}
+\par {\f0\fs18     grad_mod = (short **) malloc( dimy * sizeof( short * ) );}
+\par {\f0\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\f0\fs18 \tab grad_mod[i] = (short *) malloc( dimx * sizeof( short ) );}
+\par {\f0\fs18 }
+\par {\f0\fs18     grad_phase = (short **) malloc( dimy * sizeof( short * ) );}
+\par {\f0\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\f0\fs18 \tab grad_phase[i] = (short *) malloc( dimx * sizeof( short ) );}
+\par {\f0\fs18 }
+\par {\f0\fs18     laplacien = (short **) malloc( dimy * sizeof( short * ) );}
+\par {\f0\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\f0\fs18 \tab laplacien[i] = (short *) malloc( dimx * sizeof( short ) );}
+\par {\f0\fs18 }
+\par {\f0\fs18     binaire =  (short **) malloc( dimy * sizeof( short * ) );}
+\par {\f0\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\f0\fs18 \tab binaire[i] = (short *) malloc( dimx * sizeof( short ) );}
+\par {\f0\fs18 }
+\par {\f0\fs18     cadran =  (short **) malloc( dimy * sizeof( short * ) );}
+\par {\f0\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\f0\fs18 \tab cadran[i] = (short *) malloc( dimx * sizeof( short ) );}
+\par {\f0\fs18 }
+\par {\f0\fs18     acc = (short **) malloc( dimy * sizeof( short * ) );}
+\par {\f0\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\f0\fs18 \tab acc[i] = (short *) malloc( dimx * sizeof( short ) );}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* affiche l'image */}
+\par {\f0\fs18     affiche(buffer, itype, dimx, dimy, window_name,  argv, argc, points, NULL);}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* segmentation de l'image */}
+\par {\f0\fs18     segmente( buffer, binaire, grad_mod, grad_phase, laplacien, cadran,}
+\par {\f0\fs18 \tab       dimx, dimy );}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Transformee de Hough */}
+\par {\f0\fs18     hough( binaire, acc, grad_mod, grad_phase, laplacien, cadran,}
+\par {\f0\fs18 \tab    dimx, dimy, points );}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* sauve les foyers des paraboles */}
+\par {\f0\fs18     head.type = SHORT;}
+\par {\f0\fs18     head.x    = dimx;}
+\par {\f0\fs18     head.y    = dimy;}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18     igb_write( acc, nom_fich, &head );}
+\par {\f0\fs18     igb_write( binaire, "_bin.igb", &head );}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* affiche les foyers possibles */}
+\par {\f0\fs18     affiche(acc, itype, dimx, dimy, window_name,  argv, argc, }
+\par {\f0\fs18 \tab     points, "cmp1");}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Libere l'espace memoire */}
+\par {\f0\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab free(grad_mod[i]);}
+\par {\f0\fs18 \tab free(grad_phase[i]);}
+\par {\f0\fs18 \tab free(laplacien[i]);}
+\par {\f0\fs18 \tab free(binaire[i]);}
+\par {\f0\fs18 \tab free(buffer[i]);}
+\par {\f0\fs18 \tab free(cadran[i]);}
+\par {\f0\fs18 \tab free(acc[i]);}
+\par {\f0\fs18     \}}
+\par {\f0\fs18 }
+\par {\f0\fs18     free(grad_mod);}
+\par {\f0\fs18     free(grad_phase);}
+\par {\f0\fs18     free(laplacien);}
+\par {\f0\fs18     free(binaire);}
+\par {\f0\fs18     free(buffer);}
+\par {\f0\fs18     free(cadran);}
+\par {\f0\fs18     free(acc);}
+\par {\f0\fs18 }
+\par {\f0\fs18 \}}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 /************************************* segmente  ******************************/}
+\par {\f0\fs18 /*}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Description   }
+\par {\f0\fs18      }
+\par {\f0\fs18 \tab A partir de l'image originale on produit une image binaire et on calcule}
+\par {\f0\fs18 \tab le gradient ainsi que le Laplacien}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Variable d'entree }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab buffer     : image originale}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Variables de sortie }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab binaire    : image binaire apres segmentation}
+\par {\f0\fs18 \tab grad_mod}
+\par {\f0\fs18 \tab grad_phase : gradient module et phase}
+\par {\f0\fs18 \tab laplacien  : laplacien du point}
+\par {\f0\fs18 \tab cadran     : indique dans quel cadran se situe la pente locale}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \tab \tab \tab   ^}
+\par {\f0\fs18 \tab \tab \tab \tab 1 | 4}
+\par {\f0\fs18 \tab \tab \tab \tab ------>}
+\par {\f0\fs18 \tab \tab \tab \tab 2 | 3}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \tab signification physique >                          }
+\par {\f0\fs18 \tab \tab cadrans 2 et 4 : cotes dorsales poumon droit et ventrales gauche}
+\par {\f0\fs18 \tab \tab cadrans 1 et 3 : cotes ventrales poumon droit et dorsales gauche}
+\par {\f0\fs18 \tab \tab \tab \tab  (voir p. 60 chap.5 these de Wechsler)}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab dimx, dimy : dimensions de l'image d'entree}
+\par {\f0\fs18 }
+\par {\f0\fs18 */}
+\par {\f0\fs18 /******************************************************************************/}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 void segmente( short **buffer, short **binaire, short **grad_mod, }
+\par {\f0\fs18 \tab        short **grad_phase, short **laplacien, short **cadran,}
+\par {\f0\fs18 \tab        short  dimx, short dimy )}
+\par {\f0\fs18 \{}
+\par {\f0\fs18 }
+\par {\f0\fs18     int i, j;}
+\par {\f0\fs18     int somme;}
+\par {\f0\fs18     register x, y;}
+\par {\f0\fs18     double grad_x, grad_y;}
+\par {\f0\fs18     short phase;}
+\par {\f0\fs18     short mask[3][3];}
+\par {\f0\fs18     short d;}
+\par {\f0\fs18    }
+\par {\f0\fs18  }
+\par {\f0\fs18     /* masque du Laplacien a gain normalise */}
+\par {\f0\fs18 }
+\par {\f0\fs18     mask[0][0] = (short) -1, mask[0][1] = (short) -1, mask[0][2] = (short) -1;}
+\par {\f0\fs18     mask[1][0] = (short) -1, mask[1][1] = (short)  8, mask[1][2] = (short) -1; }
+\par {\f0\fs18     mask[2][0] = (short) -1, mask[2][1] = (short) -1, mask[2][2] = (short) -1; }
+\par {\f0\fs18     d = 8; /* Normalisation */}
+\par {\f0\fs18 \tab }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* calcul du gradient et du Laplacien */}
+\par {\f0\fs18 }
+\par {\f0\fs18     for (y = 1; y < dimy- 1; y++)}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab for (x= 1; x < dimx- 1; x++)}
+\par {\f0\fs18 \tab \{}
+\par {\f0\fs18 \tab     /* calcul de l'operateur de Sobel */}
+\par {\f0\fs18 \tab     grad_x = (double) \\}
+\par {\f0\fs18 \tab \tab      ( 2 * (buffer[y+1][x]   - buffer[y-1][x])   + \\}
+\par {\f0\fs18 \tab \tab \tab    (buffer[y+1][x+1] - buffer[y-1][x+1]) + \\}
+\par {\f0\fs18 \tab \tab \tab    (buffer[y+1][x-1] - buffer[y-1][x-1]) );}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     grad_y = (double) \\}
+\par {\f0\fs18 \tab \tab      ( 2 * (buffer[y]  [x-1] - buffer[y]  [x+1]) + \\}
+\par {\f0\fs18 \tab \tab \tab    (buffer[y-1][x-1] - buffer[y-1][x+1]) + \\}
+\par {\f0\fs18 \tab \tab \tab    (buffer[y+1][x-1] - buffer[y+1][x+1]) );}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     /* calcul de la phase du gradient */}
+\par {\f0\fs18 \tab     if ( grad_x != 0.0 )}
+\par {\f0\fs18 \tab \tab phase = (short) (atan (grad_y / grad_x) * 57.29578);}
+\par {\f0\fs18 \tab     else}
+\par {\f0\fs18 \tab \tab phase = 90;}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     if ( grad_x > 0.0 )}
+\par {\f0\fs18 \tab \tab phase += 180;}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     if( phase >= 360 )}
+\par {\f0\fs18 \tab \tab phase -= 360;}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     grad_phase[y][x] = phase;}
+\par {\f0\fs18 \tab     }
+\par {\f0\fs18 \tab     /* calcul de la pente locale */}
+\par {\f0\fs18 \tab     phase = phase - 90;}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     /* determine le cadran selon la pente de la courbe */}
+\par {\f0\fs18 \tab     if(phase < 0)}
+\par {\f0\fs18 \tab \tab phase += 360;}
+\par {\f0\fs18 \tab    }
+\par {\f0\fs18 \tab     if( (phase >= 0) && (phase < 90) )}
+\par {\f0\fs18 \tab \tab cadran[y][x] = 4;}
+\par {\f0\fs18 \tab     else}
+\par {\f0\fs18 \tab \tab if( (phase >= 90) && (phase < 180) )}
+\par {\f0\fs18 \tab \tab      cadran[y][x] = 1;}
+\par {\f0\fs18 \tab \tab else}
+\par {\f0\fs18 \tab \tab     if( (phase >= 180) && (phase < 270) )}
+\par {\f0\fs18 \tab \tab \tab  cadran[y][x] = 2;}
+\par {\f0\fs18 \tab \tab     else}
+\par {\f0\fs18 \tab \tab \tab if( (phase >= 270) && (phase < 360) )}
+\par {\f0\fs18 \tab \tab \tab     cadran[y][x] = 3;}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     /* calcule le module */}
+\par {\f0\fs18 \tab     grad_mod[y][x] = (short) sqrt( grad_x * grad_x + grad_y * grad_y );}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     /* calcul du Laplacien */}
+\par {\f0\fs18 \tab     laplacien[y][x] = (short)( (buffer[y-1][x-1] * mask[0][0] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   buffer[y-1][x]   * mask[0][1] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   buffer[y-1][x+1] * mask[0][2] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   buffer[y][x-1]   * mask[1][0] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   buffer[y][x]     * mask[1][1] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   buffer[y][x+1]   * mask[1][2] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   buffer[y+1][x-1] * mask[2][0] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   buffer[y+1][x]   * mask[2][1] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   buffer[y+1][x+1] * mask[2][2]) / d );}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \}/* for x */}
+\par {\f0\fs18     \} /* for y */}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Retourne une image binaire apres seuillage */}
+\par {\f0\fs18     seuillage( binaire, grad_mod, grad_phase, laplacien, cadran,}
+\par {\f0\fs18 \tab        dimx, dimy );}
+\par {\f0\fs18 }
+\par {\f0\fs18 \} /* segmente */}
+\par {\f0\fs18  }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 /*********************************** seuillage  *******************************/}
+\par {\f0\fs18 /*}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Description   }
+\par {\f0\fs18      }
+\par {\f0\fs18 \tab A partir du gradient, du Laplacien et de l'information sur l'orientation}
+\par {\f0\fs18 \tab on produit une image binaire }
+\par {\f0\fs18 }
+\par {\f0\fs18 -Variables d'entree }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab grad_mod}
+\par {\f0\fs18 \tab grad_phase : gradient module et phase}
+\par {\f0\fs18 \tab laplacien  : laplacien du point}
+\par {\f0\fs18 \tab cadran     : indique dans quel cadran se situe la pente locale }
+\par {\f0\fs18 \tab dimx, dimy : dimensions de l'image d'entree}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Variables de sortie }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab binaire    : image binaire apres segmentation}
+\par {\f0\fs18 }
+\par {\f0\fs18 */}
+\par {\f0\fs18 /******************************************************************************/}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 void seuillage( short **binaire, short **grad_mod, }
+\par {\f0\fs18 \tab \tab short **grad_phase, short **laplacien, short **cadran,}
+\par {\f0\fs18 \tab \tab short  dimx, short dimy )}
+\par {\f0\fs18 \{}
+\par {\f0\fs18     int i, j;}
+\par {\f0\fs18     register x, y;}
+\par {\f0\fs18 }
+\par {\f0\fs18     for (y =1; y < dimy-1; y++)}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab for (x=1; x < dimx-1; x++)}
+\par {\f0\fs18 \tab \{}
+\par {\f0\fs18 \tab \tab }
+\par {\f0\fs18 \tab     /* seuillage */ }
+\par {\f0\fs18 \tab    }
+\par {\f0\fs18 \tab     if( grad_mod[y][x] >= SEUIL_GRAD) }
+\par {\f0\fs18 \tab \tab     \{}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \tab /* Examine si la direction du gradient est semblable a 10% */}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \tab grad_phase[y][x]= (short)( abs(grad_phase[y][x]) );}
+\par {\f0\fs18 \tab \tab if( ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y+1][x]))}
+\par {\f0\fs18 \tab \tab  && (grad_phase[y][x] >= (short) (0.90 * grad_phase[y+1][x])) )}
+\par {\f0\fs18 \tab \tab || ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y+1][x+1]))}
+\par {\f0\fs18 \tab \tab  && (grad_phase[y][x] >= (short) (0.90 * grad_phase[y+1][x+1])))}
+\par {\f0\fs18 \tab \tab || ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y+1][x-1]))}
+\par {\f0\fs18 \tab \tab  && (grad_phase[y][x] >= (short) (0.90 * grad_phase[y+1][x-1])))}
+\par {\f0\fs18 \tab \tab || ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y][x-1]))}
+\par {\f0\fs18 \tab \tab  && (grad_phase[y][x] >= (short) (0.90 * grad_phase[y][x-1])))}
+\par {\f0\fs18 \tab \tab || ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y][x+1]))}
+\par {\f0\fs18 \tab \tab  && (grad_phase[y][x] >= (short) (0.90 * grad_phase[y][x+1])))}
+\par {\f0\fs18 \tab \tab || ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y-1][x]))}
+\par {\f0\fs18 \tab \tab  && (grad_phase[y][x] >= (short) (0.90 * grad_phase[y-1][x])))}
+\par {\f0\fs18 \tab \tab || ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y-1][x+1]))}
+\par {\f0\fs18 \tab \tab  && (grad_phase[y][x] >= (short) (0.90 * grad_phase[y-1][x+1])))}
+\par {\f0\fs18 \tab \tab || ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y-1][x-1]))}
+\par {\f0\fs18 \tab \tab  && (grad_phase[y][x] >= (short)(0.90* grad_phase[y-1][x-1]))) )}
+\par {\f0\fs18 \tab \tab \{}
+\par {\f0\fs18 \tab \tab }
+\par {\f0\fs18 \tab \tab   /* cotes dorsales poumon gauche et ventrales poumon droit */}
+\par {\f0\fs18 \tab \tab   if( ((cadran[y][x] ==1) || (cadran[y][x]==3)) )}
+\par {\f0\fs18 \tab \tab   \{}
+\par {\f0\fs18 \tab \tab     if(laplacien[y][x] >= SEUIL_LAP)}
+\par {\f0\fs18 \tab \tab     \{}
+\par {\f0\fs18 \tab \tab \tab binaire[y][x] = (short) 500;      /* contour externe */ }
+\par {\f0\fs18 \tab \tab     \}}
+\par {\f0\fs18 \tab \tab     else}
+\par {\f0\fs18 \tab \tab     \{}
+\par {\f0\fs18 \tab \tab \tab if(laplacien[y][x] < SEUIL_LAP)}
+\par {\f0\fs18 \tab \tab \tab     binaire[y][x] = (short) 1023; /*1023 contour interne */}
+\par {\f0\fs18 \tab \tab     \}}
+\par {\f0\fs18 \tab \tab   \}}
+\par {\f0\fs18 \tab \tab   /* cotes dorsales poumon droit et ventrales poumon gauche */}
+\par {\f0\fs18 \tab \tab   else}
+\par {\f0\fs18 \tab \tab   \{}
+\par {\f0\fs18 \tab \tab     if(laplacien[y][x] >= SEUIL_LAP)}
+\par {\f0\fs18 \tab \tab     \{}
+\par {\f0\fs18 \tab \tab \tab  binaire[y][x] = (short) 800;/* 800*/ /* contour externe */     }
+\par {\f0\fs18 \tab \tab     \}}
+\par {\f0\fs18 \tab \tab     else}
+\par {\f0\fs18 \tab \tab     \{}
+\par {\f0\fs18 \tab \tab \tab if(laplacien[y][x] < SEUIL_LAP)}
+\par {\f0\fs18 \tab \tab \tab     binaire[y][x] = (short) 900; /* contour interne */}
+\par {\f0\fs18 \tab \tab     \}}
+\par {\f0\fs18 \tab }
+\par {\f0\fs18 \tab \tab   \}}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \tab \}}
+\par {\f0\fs18 \tab \tab else}
+\par {\f0\fs18 \tab \tab    binaire[y][x] = (short) 0;}
+\par {\f0\fs18  }
+\par {\f0\fs18 \tab     \}}
+\par {\f0\fs18 \tab     else}
+\par {\f0\fs18 \tab \tab binaire[y][x] = (short) 0;}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \}/* for x */}
+\par {\f0\fs18     \} /* for y */}
+\par {\f0\fs18 }
+\par {\f0\fs18 \}/* seuillage */}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 /************************************ hough  **********************************/}
+\par {\f0\fs18 /*}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Description   }
+\par {\f0\fs18      }
+\par {\f0\fs18 \tab A partir de l'image binaire et de l'information sur l'orientation }
+\par {\f0\fs18 \tab on effectue la transformee de Hough. }
+\par {\f0\fs18 }
+\par {\f0\fs18 -Variables d'entree }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab grad_mod}
+\par {\f0\fs18 \tab grad_phase : gradient module et phase}
+\par {\f0\fs18 \tab laplacien  : laplacien du point}
+\par {\f0\fs18 \tab cadran     : indique dans quel cadran se situe la pente locale }
+\par {\f0\fs18 \tab dimx, dimy : dimensions de l'image d'entree}
+\par {\f0\fs18 \tab points     : les points entres par l'usager sur la cote}
+\par {\f0\fs18 \tab binaire    : image binaire apres segmentation}
+\par {\f0\fs18 \tab pts        : points limites du thorax}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Variables de sortie }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab acc        : accumulation des foyers de paraboles  }
+\par {\f0\fs18 }
+\par {\f0\fs18 */}
+\par {\f0\fs18 /******************************************************************************/}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 void hough( short **binaire, short** acc, short **grad_mod, }
+\par {\f0\fs18 \tab     short **grad_phase, short **laplacien, short **cadran,}
+\par {\f0\fs18 \tab     short  dimx, short dimy, XPoint *pts )}
+\par {\f0\fs18 }
+\par {\f0\fs18 \{}
+\par {\f0\fs18 }
+\par {\f0\fs18     int i;}
+\par {\f0\fs18     int xp=0, yp=0;                     /* coordonnees du point examine */}
+\par {\f0\fs18     int xf, yf;                         /* coordonnnees du point focus */}
+\par {\f0\fs18     int R1, R2, L1, L2;                 /* booleens pour connectivite */}
+\par {\f0\fs18     short** ACC;                        /* accumulateur apres convolution */}
+\par {\f0\fs18     short mask[3][3];                   /* masque de convolution */}
+\par {\f0\fs18     int direc_gau, direc_droit;         /* directrice gauche et droite */}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* masque pour l'accumulateur */}
+\par {\f0\fs18 }
+\par {\f0\fs18     mask[0][0] = (short) 1, mask[0][1] = (short) 2, mask[0][2] = (short) 1;}
+\par {\f0\fs18     mask[1][0] = (short) 2, mask[1][1] = (short) 4, mask[1][2] = (short) 2; }
+\par {\f0\fs18     mask[2][0] = (short) 1, mask[2][1] = (short) 2, mask[2][2] = (short) 1; }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* allocation memoire de l'accumulateur */}
+\par {\f0\fs18     ACC = (short **) malloc( dimy * sizeof( short * ) );}
+\par {\f0\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\f0\fs18 \tab ACC[i] = (short *) malloc( dimx * sizeof( short ) );}
+\par {\f0\fs18 }
+\par {\f0\fs18    for (yp =0; yp < dimy; yp++)}
+\par {\f0\fs18 \tab for (xp=0; xp < dimx; xp++)}
+\par {\f0\fs18 \tab     acc[yp][xp] = 0;}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* technique de Hough -> voir Wechsler chap. 5 */    }
+\par {\f0\fs18     /* detection des sections paraboliques avec l'accumulateur */}
+\par {\f0\fs18 }
+\par {\f0\fs18     direc_gau   = pts[1].x - 15; /* la valeur 15 est pure speculation */}
+\par {\f0\fs18     direc_droit = pts[2].x + 15;}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* cotes DORSALES POUMON DROIT */}
+\par {\f0\fs18     for (yp=1; yp < dimy-1; yp++)}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab for (xp=pts[1].x; xp < pts[3].x; xp++)}
+\par {\f0\fs18 \tab \{}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     if( (binaire[yp][xp] != 0)}
+\par {\f0\fs18 \tab       && ((cadran[yp][xp] == 4) || (cadran[yp][xp] == 4)) ) }
+\par {\f0\fs18 \tab     \{}
+\par {\f0\fs18 \tab \tab }
+\par {\f0\fs18 \tab \tab /* calcule le foyer avec la pente locale */}
+\par {\f0\fs18 \tab \tab /* une directrice "flexible"  pourra se former au contour de }
+\par {\f0\fs18 \tab \tab cage thoracique +/- une distance definit selon le niveau        }
+\par {\f0\fs18 \tab \tab vertebrale du pixel.  Cette distance pourra dependre des        }
+\par {\f0\fs18 \tab \tab parametres paraboliques, des cotes situees a ce niveau.  Et ces }
+\par {\f0\fs18 \tab \tab parametres pourraient etre obtenus eventuellement d'un modele   }
+\par {\f0\fs18 \tab \tab parametrique de la cage thoracique. */  }
+\par {\f0\fs18 \tab \tab }
+\par {\f0\fs18 \tab \tab xf=xp -abs((xp-direc_gau) *sin(2 *(grad_phase[yp][xp]-90) /57.29578));}
+\par {\f0\fs18 \tab \tab yf=yp +abs((xp-direc_gau) *cos(2 *(grad_phase[yp][xp]-90) /57.29578));}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \tab /* cas limites */}
+\par {\f0\fs18 \tab \tab if( xf < 0 )}
+\par {\f0\fs18 \tab \tab    xf = 0;}
+\par {\f0\fs18 \tab \tab if( yf < 0 )}
+\par {\f0\fs18 \tab \tab    yf = 0;}
+\par {\f0\fs18 \tab \tab if( yf >= dimy)}
+\par {\f0\fs18 \tab \tab     yf = dimy - 1;}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \tab /* affecte un poids selon la similarite du cadran */}
+\par {\f0\fs18 \tab \tab /* examine si les voisins appartiennent a une arete */}
+\par {\f0\fs18 \tab \tab L1 = (cadran[yp][xp]==cadran[yp][xp-1])}
+\par {\f0\fs18 \tab \tab    && (binaire[yp][xp-1] != 0);}
+\par {\f0\fs18 \tab \tab L2 = (cadran[yp][xp]==cadran[yp+1][xp-1])}
+\par {\f0\fs18 \tab \tab    && (binaire[yp+1][xp-1] != 0);}
+\par {\f0\fs18 \tab \tab R1 = (cadran[yp][xp]==cadran[yp][xp+1])}
+\par {\f0\fs18 \tab \tab    && (binaire[yp][xp+1] != 0);}
+\par {\f0\fs18 \tab \tab R2 = (cadran[yp][xp]==cadran[yp-1][xp+1])}
+\par {\f0\fs18 \tab \tab    && (binaire[yp-1][xp+1] != 0);}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \tab if( (L1 || L2) && (R1 || R2) )}
+\par {\f0\fs18 \tab \tab     acc[yf][xf] += 48;}
+\par {\f0\fs18 \tab \tab else}
+\par {\f0\fs18 \tab \tab     if( (L1 || L2) || (R1 || R2) )}
+\par {\f0\fs18 \tab \tab \tab acc[yf][xf] += 24;}
+\par {\f0\fs18 \tab \tab     else}
+\par {\f0\fs18 \tab \tab \tab acc[yf][xf] += 12;}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     \}}
+\par {\f0\fs18 \tab \}}
+\par {\f0\fs18     \}}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* cotes DORSALES POUMON GAUCHE */}
+\par {\f0\fs18     for (yp=1; yp < dimy-1; yp++)}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab for (xp=pts[4].x; xp < pts[2].x; xp++)}
+\par {\f0\fs18 \tab \{}
+\par {\f0\fs18 \tab     if( (binaire[yp][xp] != 0) }
+\par {\f0\fs18 \tab       && ((cadran[yp][xp] == 3) || (cadran[yp][xp] == 3)) ) }
+\par {\f0\fs18 \tab     \{}
+\par {\f0\fs18 \tab \tab }
+\par {\f0\fs18 \tab \tab /* calcule le foyer avec la pente locale */}
+\par {\f0\fs18 \tab \tab xf=xp +abs((direc_droit-xp) *sin(2 *(grad_phase[yp][xp]-90) /57.29578));}
+\par {\f0\fs18 \tab \tab yf=yp +abs((direc_droit-xp) *cos(2 *(grad_phase[yp][xp]-90) /57.29578));}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \tab /* cas limites */}
+\par {\f0\fs18 \tab \tab if( xf >= dimx  )}
+\par {\f0\fs18 \tab \tab    xf = dimx - 1;}
+\par {\f0\fs18 \tab \tab if( yf < 0 )}
+\par {\f0\fs18 \tab \tab    yf = 0;}
+\par {\f0\fs18 \tab \tab if( yf >= dimy)}
+\par {\f0\fs18 \tab \tab     yf = dimy - 1;}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \tab /* affecte un poids selon la similarite du cadran */}
+\par {\f0\fs18 \tab \tab /* examine si les voisins appartiennent a une arete */}
+\par {\f0\fs18 \tab \tab L1 = (cadran[yp][xp]==cadran[yp][xp-1])}
+\par {\f0\fs18 \tab \tab    && (binaire[yp][xp-1] != 0);}
+\par {\f0\fs18 \tab \tab L2 = (cadran[yp][xp]==cadran[yp+1][xp-1])}
+\par {\f0\fs18 \tab \tab    && (binaire[yp+1][xp-1] != 0);}
+\par {\f0\fs18 \tab \tab R1 = (cadran[yp][xp]==cadran[yp][xp+1])}
+\par {\f0\fs18 \tab \tab    && (binaire[yp][xp+1] != 0);}
+\par {\f0\fs18 \tab \tab R2 = (cadran[yp][xp]==cadran[yp-1][xp+1])}
+\par {\f0\fs18 \tab \tab    && (binaire[yp-1][xp+1] != 0);}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \tab if( (L1 || L2) && (R1 || R2) )}
+\par {\f0\fs18 \tab \tab     acc[yf][xf] += 48;}
+\par {\f0\fs18 \tab \tab else}
+\par {\f0\fs18 \tab \tab     if( (L1 || L2) || (R1 || R2) )}
+\par {\f0\fs18 \tab \tab \tab acc[yf][xf] += 24;}
+\par {\f0\fs18 \tab \tab     else}
+\par {\f0\fs18 \tab \tab \tab acc[yf][xf] += 12;}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     \}}
+\par {\f0\fs18 \tab \}}
+\par {\f0\fs18     \}}
+\par {\f0\fs18 }
+\par {\f0\fs18    }
+\par {\f0\fs18     /* convolution du tableau accumulateur */}
+\par {\f0\fs18     /*for (yp=1; yp < dimy-1; yp++)}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab for (xp=1; xp < dimx-1; xp++)}
+\par {\f0\fs18 \tab \{}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab   ACC[yp][xp] = (short)( (acc[yp-1][xp-1] * mask[0][0] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   acc[yp-1][xp]   * mask[0][1] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   acc[yp-1][xp+1] * mask[0][2] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   acc[yp][xp-1]   * mask[1][0] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   acc[yp][xp]     * mask[1][1] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   acc[yp][xp+1]   * mask[1][2] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   acc[yp+1][xp-1] * mask[2][0] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   acc[yp+1][xp]   * mask[2][1] + \\}
+\par {\f0\fs18 \tab \tab \tab \tab   acc[yp+1][xp+1] * mask[2][2]) );}
+\par {\f0\fs18 \tab \}}
+\par {\f0\fs18     \}}
+\par {\f0\fs18   }
+\par {\f0\fs18     acc = ACC;*/}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Methode de clustering pour determiner les foyers (C_mean / Isodata) */}
+\par {\f0\fs18     /* a completer ... */}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* marque les points numerises dans l'image binaire */}
+\par {\f0\fs18     /* a completer ... */}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* libere l'espace memoire */}
+\par {\f0\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\f0\fs18 \tab free(ACC[i]);}
+\par {\f0\fs18     }
+\par {\f0\fs18     free(ACC);}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18  }
+\par {\f0\fs18 }
+\par {\f0\fs18 \}/* hough */}
+\par {\f0\fs18 }
+\par {\f0\fs18 /********************************* affiche  ***********************************/}
+\par {\f0\fs18 /*}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Description   }
+\par {\f0\fs18      }
+\par {\f0\fs18 \tab A partir de la table de couleur, on affiche dans une fenetre }
+\par {\f0\fs18 \tab l'image binaire. Et on retourne les points entres par l'usager.}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Variables d'entree }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab window_name : nom de la fenetre=  NAC: + nom de fichier}
+\par {\f0\fs18 \tab itype       : type des donnees (short / char)}
+\par {\f0\fs18 \tab dimx, dimy  : dimensions de l'image d'entree}
+\par {\f0\fs18 \tab data        : image binaire a afficher}
+\par {\f0\fs18 \tab table       : nom du fichier contenant la table des couleurs}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 -Variables de sortie }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab points      : les points entres par l'usager sur la cote}
+\par {\f0\fs18 }
+\par {\f0\fs18 */}
+\par {\f0\fs18 /******************************************************************************/}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 void affiche(short **data, short itype, short dimx, short dimy,}
+\par {\f0\fs18 \tab      char *window_name, char **argv, int argc, XPoint *points, }
+\par {\f0\fs18 \tab      char* table)}
+\par {\f0\fs18 \{}
+\par {\f0\fs18 }
+\par {\f0\fs18     char                *image;}
+\par {\f0\fs18     char *display_name= NULL;}
+\par {\f0\fs18     int                 count, i;}
+\par {\f0\fs18     int                 index= 1;}
+\par {\f0\fs18     char                buffer[10];}
+\par {\f0\fs18     int                 bufsize = 10, nchars;}
+\par {\f0\fs18     int                 pos_x, pos_y, root_x, root_y;}
+\par {\f0\fs18     Pixmap              icon_pixmap;}
+\par {\f0\fs18     XEvent              report;}
+\par {\f0\fs18     XGCValues           values;}
+\par {\f0\fs18     XSizeHints          size_hints;}
+\par {\f0\fs18     XIconSize           *size_list;}
+\par {\f0\fs18     KeySym              ks;}
+\par {\f0\fs18     XComposeStatus      cs;}
+\par {\f0\fs18     XWMHints            wm_hints;}
+\par {\f0\fs18     XClassHint          class_hints;}
+\par {\f0\fs18     XTextProperty       windowName, iconName;}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 /* voir XLib Prog. Manual vol. 1 sect. 9.2.1.2 pp. 288-289 */}
+\par {\f0\fs18 }
+\par {\f0\fs18     if ( (display = XOpenDisplay( display_name )) == NULL )}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab (void) fprintf( stderr, "%s: cannot connect to X server %s\\n",}
+\par {\f0\fs18 \tab \tab \tab progname, XDisplayName(display_name) );}
+\par {\f0\fs18 \tab exit( -1 );}
+\par {\f0\fs18     \}}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* numero d'ecran par defaut */}
+\par {\f0\fs18     screen_num = DefaultScreen( display );}
+\par {\f0\fs18 }
+\par {\f0\fs18     if( table == NULL )}
+\par {\f0\fs18 \tab /* echelle de gris */}
+\par {\f0\fs18 \tab AllocateGrayNamedColor();}
+\par {\f0\fs18     else}
+\par {\f0\fs18 \tab AllocateNamedColorMap(table);}
+\par {\f0\fs18 \tab }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Conversion de 10 bits a 8 bits pour l'affichage */}
+\par {\f0\fs18     image = ten2eight_bits( data, itype, dimx, dimy );}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Creer une fenetre pour afficher l'image */}
+\par {\f0\fs18     win = XCreateSimpleWindow( display, RootWindow( display, screen_num ), 0, 0,}
+\par {\f0\fs18 \tab   dimx, dimy, BORDER_W, BlackPixel( display, screen_num ), }
+\par {\f0\fs18 \tab   WhitePixel(display, screen_num ) );}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Trouve la taille des icones de window manager */}
+\par {\f0\fs18     if ( XGetIconSizes( display, RootWindow( display, screen_num ),}
+\par {\f0\fs18 \tab \tab  &size_list, &count ) == 0 )}
+\par {\f0\fs18 \tab (void) fprintf( stderr, "%s: Window manager didn't set icon sizes - \\}
+\par {\f0\fs18 \tab \tab using default.\\n", progname );}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Creer un bitmap de l'icone */}
+\par {\f0\fs18     icon_pixmap = XCreateBitmapFromData( display, win, icon_nac_bits, }
+\par {\f0\fs18 \tab \tab   icon_nac_width, icon_nac_height );}
+\par {\f0\fs18     /* definit les parametres */}
+\par {\f0\fs18     size_hints.flags = PPosition | PSize | PMinSize;}
+\par {\f0\fs18     size_hints.min_width = dimx;}
+\par {\f0\fs18     size_hints.min_height = dimy;}
+\par {\f0\fs18 }
+\par {\f0\fs18     }
+\par {\f0\fs18     /* conserve le nom de la fenetre et le nom de l'icone dans }
+\par {\f0\fs18        la structure XTextProperty et definit ses autres champs */}
+\par {\f0\fs18     if ( XStringListToTextProperty( &window_name, 1, &windowName ) == 0 )}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab (void) fprintf( stderr, "%s: structure allocation for \\}
+\par {\f0\fs18 \tab \tab \tab \tab windowName failed.\\n", progname );}
+\par {\f0\fs18 \tab  exit( -1 );}
+\par {\f0\fs18     \}}
+\par {\f0\fs18 }
+\par {\f0\fs18     if ( XStringListToTextProperty( &progname, 1, &iconName ) == 0 )}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab (void) fprintf( stderr, "%s: structure allocation for \\}
+\par {\f0\fs18 \tab \tab \tab \tab iconName failed.\\n", progname );}
+\par {\f0\fs18 \tab exit( -1 );}
+\par {\f0\fs18     \}}
+\par {\f0\fs18 }
+\par {\f0\fs18     wm_hints.initial_state = NormalState;}
+\par {\f0\fs18     wm_hints.input = True;}
+\par {\f0\fs18     wm_hints.icon_pixmap = icon_pixmap;}
+\par {\f0\fs18     wm_hints.flags = StateHint | IconPixmapHint | InputHint;}
+\par {\f0\fs18 }
+\par {\f0\fs18     class_hints.res_name = progname;}
+\par {\f0\fs18     class_hints.res_class = "NAC";}
+\par {\f0\fs18 }
+\par {\f0\fs18     XSetWMProperties( display, win, &windowName, &iconName, argv, argc,}
+\par {\f0\fs18 \tab \tab &size_hints, &wm_hints, &class_hints );}
+\par {\f0\fs18     }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* choisit les types d'evenement desires */}
+\par {\f0\fs18     XSelectInput( display, win, ExposureMask | KeyPressMask |}
+\par {\f0\fs18 \tab     ButtonPressMask | ButtonReleaseMask |}
+\par {\f0\fs18 \tab     PointerMotionHintMask);}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* creer un contexte graphique par defaut */}
+\par {\f0\fs18     values.foreground = BlackPixel( display, screen_num );}
+\par {\f0\fs18     values.background = WhitePixel( display, screen_num );}
+\par {\f0\fs18     gc = XCreateGC( display, win, (GCForeground | GCBackground), &values );}
+\par {\f0\fs18 }
+\par {\f0\fs18     XSetFunction( display, gc, GXxor );}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* affiche la fenetre */}
+\par {\f0\fs18     XMapWindow( display, win );}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* examine les evenements */}
+\par {\f0\fs18     while( 1 )}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab XNextEvent( display, &report );}
+\par {\f0\fs18 \tab switch ( report.type )}
+\par {\f0\fs18 \tab \{}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     case ButtonPress :          }
+\par {\f0\fs18 \tab \tab points[index].x = report.xbutton.x;}
+\par {\f0\fs18 \tab \tab points[index].y = report.xbutton.y;             }
+\par {\f0\fs18 \tab \tab break;}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     case ButtonRelease :}
+\par {\f0\fs18 \tab \tab /* affiche le point */}
+\par {\f0\fs18 \tab \tab XSetFunction( display, gc, GXinvert);}
+\par {\f0\fs18 \tab \tab XDrawLine( display, win, gc, points[index].x-10, }
+\par {\f0\fs18 \tab \tab \tab   points[index].y, points[index].x+10, points[index].y);}
+\par {\f0\fs18 \tab \tab XDrawLine( display, win, gc, points[index].x, }
+\par {\f0\fs18 \tab \tab       points[index].y-10, points[index].x, points[index].y+10);}
+\par {\f0\fs18 \tab \tab index++;}
+\par {\f0\fs18 \tab \tab break;}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     case Expose :}
+\par {\f0\fs18 \tab }
+\par {\f0\fs18 \tab \tab /* Affichage et rafraichissement de la fenetre */}
+\par {\f0\fs18 \tab \tab if ( report.xexpose.count == 0 )}
+\par {\f0\fs18 \tab \tab \{       }
+\par {\f0\fs18 \tab \tab     XSetFunction( display, gc, GXcopy);   }
+\par {\f0\fs18 \tab \tab     SetImageWindow( dimx, dimy, image );}
+\par {\f0\fs18 \tab \tab     XSetFunction( display, gc, GXinvert);}
+\par {\f0\fs18 \tab \tab     for(i=1; i < index; i++)}
+\par {\f0\fs18 \tab \tab     \{}
+\par {\f0\fs18 \tab \tab \tab XDrawLine( display, win, gc, points[i].x-10, }
+\par {\f0\fs18 \tab \tab \tab \tab    points[i].y, points[i].x+10, points[i].y);}
+\par {\f0\fs18 \tab \tab \tab XDrawLine( display, win, gc, points[i].x, }
+\par {\f0\fs18 \tab \tab \tab \tab    points[i].y-10, points[i].x, points[i].y+10);}
+\par {\f0\fs18 \tab \tab     \}}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \tab     break;}
+\par {\f0\fs18 \tab \tab \}                                                               }
+\par {\f0\fs18 \tab \tab break;}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     case KeyPress :}
+\par {\f0\fs18 \tab \tab nchars = XLookupString( &report, buffer, bufsize, &ks, &cs );}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \tab /* appuie sur ESC pour terminer */}
+\par {\f0\fs18 \tab \tab if ( buffer[0] == 0x1b )}
+\par {\f0\fs18 \tab \tab \{}
+\par {\f0\fs18 \tab \tab     XFreeGC( display, gc );}
+\par {\f0\fs18 \tab \tab     XCloseDisplay( display );}
+\par {\f0\fs18 \tab \tab     return; }
+\par {\f0\fs18 \tab \tab \}}
+\par {\f0\fs18 \tab     default :}
+\par {\f0\fs18 \tab \tab     /* Tous les evenements nom desires sont ignores */}
+\par {\f0\fs18 \tab \tab break;}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab \} /* End switch */}
+\par {\f0\fs18 }
+\par {\f0\fs18     \} /* End while */}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 \}/* affiche */}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 /************************* AllocateGrayNamedColor()  **************************/}
+\par {\f0\fs18 /*}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Description   }
+\par {\f0\fs18 \tab Cree un nouveau Colormap a l'aide des 100 nom standard de Gris       }
+\par {\f0\fs18 \tab (Standard X : gray0 a gray99 et grey0 a grey99)                      }
+\par {\f0\fs18 \tab        }
+\par {\f0\fs18 }
+\par {\f0\fs18 */}
+\par {\f0\fs18 /******************************************************************************/}
+\par {\f0\fs18 void AllocateGrayNamedColor( void )}
+\par {\f0\fs18 \{}
+\par {\f0\fs18     int      i;}
+\par {\f0\fs18     unsigned long j;}
+\par {\f0\fs18     char     grayname[7];}
+\par {\f0\fs18     XColor   colorcell_def, rgb_db_def;}
+\par {\f0\fs18     Colormap def_cmap;}
+\par {\f0\fs18 }
+\par {\f0\fs18     struct \{}
+\par {\f0\fs18 \tab int     index;}
+\par {\f0\fs18 \tab Pixel   pixel;}
+\par {\f0\fs18     \} look_up_gray[NB_GRAY_NAME]; }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Allocation des niveaux de gris dans la table par defaut. */}
+\par {\f0\fs18     def_cmap = DefaultColormap( display, screen_num );}
+\par {\f0\fs18     for( i = 0; i < NB_GRAY_NAME; i++ )}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab sprintf( grayname, "gray%d", i );}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab if( !XAllocNamedColor( display, def_cmap, grayname, &colorcell_def, &rgb_db_def ) )}
+\par {\f0\fs18 \tab \{}
+\par {\f0\fs18 \tab     fprintf( stderr, "\\n   color %s not available in rgb.txt", grayname );}
+\par {\f0\fs18 \tab     look_up_gray[i].index = -1;}
+\par {\f0\fs18 \tab     exit( 0 );}
+\par {\f0\fs18 \tab \}}
+\par {\f0\fs18 \tab else}
+\par {\f0\fs18 \tab \{}
+\par {\f0\fs18 \tab     look_up_gray[i].index = rgb_db_def.red>>8;}
+\par {\f0\fs18 \tab     look_up_gray[i].pixel = colorcell_def.pixel;}
+\par {\f0\fs18 \tab \}}
+\par {\f0\fs18     \}}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Creer une nouvelle table */}
+\par {\f0\fs18     for ( i = 1; i < NB_GRAY_NAME; i++ )}
+\par {\f0\fs18 \tab for ( j = look_up_gray[i-1].index; j < look_up_gray[i].index; j++ )}
+\par {\f0\fs18 \tab     ColorMap[j] = look_up_gray[i-1].pixel;}
+\par {\f0\fs18 }
+\par {\f0\fs18     ColorMap[look_up_gray[NB_GRAY_NAME-1].index] = look_up_gray[NB_GRAY_NAME-1].pixel;}
+\par {\f0\fs18 }
+\par {\f0\fs18 \}/* AllocateGrayNamedColor */}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 /*************************** SetImageWindow()  ********************************/}
+\par {\f0\fs18 /*}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Description   }
+\par {\f0\fs18 \tab Convertit les donnees de l'image en utilisant le ColorMap,           }
+\par {\f0\fs18 \tab alloue une structure XImage et affiche l'image.                      }
+\par {\f0\fs18 \tab        }
+\par {\f0\fs18 -Variables d'entree }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab dimx, dimy  : dimensions de l'image d'entree}
+\par {\f0\fs18 \tab image       : image binaire 8 bits a afficher}
+\par {\f0\fs18 }
+\par {\f0\fs18 */}
+\par {\f0\fs18 /******************************************************************************/}
+\par {\f0\fs18 void SetImageWindow( short dimx, short dimy, char *image )}
+\par {\f0\fs18 \{}
+\par {\f0\fs18     char                *new_image;}
+\par {\f0\fs18     XImage              *ximage;}
+\par {\f0\fs18     unsigned long       i;}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Allocation du buffer pour l`image. */}
+\par {\f0\fs18     new_image = (char *) malloc( dimx * dimy );}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Conversion des niveaux de gris */}
+\par {\f0\fs18     for ( i = 0; i < dimx * dimy - dimx; i++ )}
+\par {\f0\fs18 \tab new_image[i] = (char) ColorMap[image[i]];}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Creer l'image. */}
+\par {\f0\fs18     ximage = XCreateImage( display, XDefaultVisual( display, screen_num ),}
+\par {\f0\fs18 \tab     8, ZPixmap, 0, new_image, dimx, dimy, 8, dimx );}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Affiche Image */}
+\par {\f0\fs18     XPutImage( display, win, gc, ximage, 0, 0, 0, 0, dimx, dimy );}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Libere l'image */}
+\par {\f0\fs18     XDestroyImage( ximage );}
+\par {\f0\fs18 }
+\par {\f0\fs18 \}/* SetImageWindow */}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab     }
+\par {\f0\fs18 /*************************** AllocateNamedColorMap()  *************************/}
+\par {\f0\fs18 /*}
+\par {\f0\fs18 }
+\par {\f0\fs18 -Description   }
+\par {\f0\fs18 \tab Lit le fichier Colormap de l'utilisateur, et fait l'allocation d'un  }
+\par {\f0\fs18 \tab nouveau colormap.                                                    }
+\par {\f0\fs18 }
+\par {\f0\fs18 -Variables d'entree }
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab cmap_file     : fichier contenant la table de couleurs}
+\par {\f0\fs18 }
+\par {\f0\fs18 */}
+\par {\f0\fs18 /******************************************************************************/}
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18 void AllocateNamedColorMap( char *cmap_file )}
+\par {\f0\fs18 \{}
+\par {\f0\fs18     FILE        *fin;}
+\par {\f0\fs18     char        colorname[25], s[80];}
+\par {\f0\fs18     Colormap    def_cmap;}
+\par {\f0\fs18     int         i, n, nitems, end = FALSE;}
+\par {\f0\fs18     XColor      colorcell_def, rgb_db_def;}
+\par {\f0\fs18     unsigned long j;}
+\par {\f0\fs18 }
+\par {\f0\fs18     struct \{}
+\par {\f0\fs18 \tab int     index;}
+\par {\f0\fs18 \tab Pixel   pixel;}
+\par {\f0\fs18     \} look_up_color[MAXCOLORS]; }
+\par {\f0\fs18 }
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Ouvrir le fichier de color map */}
+\par {\f0\fs18     if ( (fin = fopen( cmap_file, "r" )) == NULL )}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab fprintf( stderr, "\\n Error, incapable d'ouvrir le fichier du colormap.\\n\\n" );}
+\par {\f0\fs18 \tab exit( 0 );}
+\par {\f0\fs18     \}}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Allocation des couleurs dans la table par defaut. */}
+\par {\f0\fs18     def_cmap = DefaultColormap( display, screen_num );}
+\par {\f0\fs18     nitems = 0;}
+\par {\f0\fs18     while ( !end )}
+\par {\f0\fs18     \{}
+\par {\f0\fs18 \tab /* Test l'index de look-up table */}
+\par {\f0\fs18 \tab if ( nitems > MAXCOLORS )}
+\par {\f0\fs18 \tab \{}
+\par {\f0\fs18 \tab     fprintf( stderr, "\\n Error, colormap - look-up table overflow.\\n\\n" );}
+\par {\f0\fs18 \tab     exit( 0 );}
+\par {\f0\fs18 \tab \}}
+\par {\f0\fs18 }
+\par {\f0\fs18 \tab /* lit les noms de couleurs */}
+\par {\f0\fs18 \tab if ( fscanf( fin, "%d %s", &n, colorname ) == EOF )}
+\par {\f0\fs18 \tab     end = TRUE;}
+\par {\f0\fs18 \tab else}
+\par {\f0\fs18 \tab \{}
+\par {\f0\fs18 \tab     /* Alloue les noms de couleurs */}
+\par {\f0\fs18 \tab     if( !XAllocNamedColor( display, def_cmap, colorname, &colorcell_def, &rgb_db_def ))}
+\par {\f0\fs18 \tab     \{}
+\par {\f0\fs18 \tab \tab fprintf(stderr, "\\n   color %s not available in rgb.txt", colorname);}
+\par {\f0\fs18 \tab \tab look_up_color[nitems].index = -1;}
+\par {\f0\fs18 \tab \tab exit(0);}
+\par {\f0\fs18 \tab     \}}
+\par {\f0\fs18 \tab     else}
+\par {\f0\fs18 \tab     \{}
+\par {\f0\fs18 \tab \tab /* construit look-up table */}
+\par {\f0\fs18 \tab \tab look_up_color[nitems].index = n;}
+\par {\f0\fs18 \tab \tab look_up_color[nitems].pixel = colorcell_def.pixel;}
+\par {\f0\fs18 \tab \tab nitems++;}
+\par {\f0\fs18 \tab     \}}
+\par {\f0\fs18 \tab \}}
+\par {\f0\fs18     \}}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Affecte la table de couleurs */}
+\par {\f0\fs18     nitems--;}
+\par {\f0\fs18     for ( i = 0; i < nitems; i++ )}
+\par {\f0\fs18 \tab for ( j = look_up_color[i].index; j < look_up_color[i+1].index; j++ )}
+\par {\f0\fs18 \tab     ColorMap[j] = look_up_color[i].pixel;}
+\par {\f0\fs18 }
+\par {\f0\fs18     /* Completer la table jusqu'a 255 */}
+\par {\f0\fs18     i = look_up_color[nitems].index;}
+\par {\f0\fs18     do \{}
+\par {\f0\fs18 \tab ColorMap[i++] = look_up_color[nitems].pixel;}
+\par {\f0\fs18     \} while( i < MAXCOLORS );}
+\par {\f0\fs18 }
+\par {\f0\fs18 \} /* AllocateNamedColorMap */}{\f0\fs18 }\par \page \pard\plain \s0\cf0\lotusoutlinelevel0 \qc  {\f1 }{\b \f1 numeris.c}{\f1 }
+\par \pard\plain \s0\cf0\lotusoutlinelevel0 {\fs18 }
+\par {\fs18 /********************** Numerisation Automatique des cotes ********************/}
+\par {\fs18 }
+\par {\fs18 /* Version avec segmentation directionnelle et analyse locale */ }
+\par {\fs18 }
+\par {\fs18 /********************************** Includes **********************************/}
+\par {\fs18 }
+\par {\fs18 /* Xlib version 11 */}
+\par {\fs18 #include <X11/X.h>}
+\par {\fs18 #include <X11/Xlib.h>}
+\par {\fs18 #include <X11/keysym.h>}
+\par {\fs18 #include <X11/cursorfont.h>}
+\par {\fs18 #include <X11/Intrinsic.h>}
+\par {\fs18 #include <X11/StringDefs.h>}
+\par {\fs18 #include <X11/Xatom.h>}
+\par {\fs18 #include <X11/Xresource.h>}
+\par {\fs18 #include <X11/MwmUtil.h>}
+\par {\fs18 #include <X11/Shell.h>}
+\par {\fs18 #include <Xm/Xm.h>}
+\par {\fs18 #include <Xm/DrawingA.h>}
+\par {\fs18 #include <X11/Xutil.h>}
+\par {\fs18 #include <X11/Xatom.h>}
+\par {\fs18 #include <X11/Xos.h>}
+\par {\fs18 }
+\par {\fs18 #include <stdio.h>}
+\par {\fs18 #include <string.h>}
+\par {\fs18 #include <malloc.h>}
+\par {\fs18 #include <stdlib.h>}
+\par {\fs18 #include <math.h>}
+\par {\fs18 #include "header.h"}
+\par {\fs18 #include "igb_io.h"}
+\par {\fs18 #include "icon_nac"}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 /******************************************************************************/}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 /********************************** Declarations ******************************/}
+\par {\fs18 }
+\par {\fs18 #define BORDER_W          3     }
+\par {\fs18 #define MAXCOLORS       256}
+\par {\fs18 #define NB_GRAY_NAME    101     /* Nb de niveaux de gris connus */}
+\par {\fs18 }
+\par {\fs18 #define BUFF_SIZE       100     /* Nb de points max a entrer par l'usager */}
+\par {\fs18 #define SEUIL_GRAD       30     /* Seuil sur le module du gradient */}
+\par {\fs18 #define SEUIL_LAP         0     /* Seuil sur le Laplacien */}
+\par {\fs18 }
+\par {\fs18 /******************************************************************************/}
+\par {\fs18 }
+\par {\fs18   }
+\par {\fs18 /********************************** Prototypes ********************************/}
+\par {\fs18 }
+\par {\fs18 extern  short   **igb_read();}
+\par {\fs18 extern  char    *ten2eight_bits();}
+\par {\fs18 void segmente(short**, short**, short**, short**, short**, short**, }
+\par {\fs18 \tab       short, short);}
+\par {\fs18 void seuillage(short**, short**, short**, short**, short**, }
+\par {\fs18 \tab        short, short);}
+\par {\fs18 void locale(short**, short**,short**, short**, short**, short**, }
+\par {\fs18 \tab        short, short, XPoint*);}
+\par {\fs18 void affiche(short**, short, short, short, char*, char**, int, XPoint*, char*);}
+\par {\fs18 void AllocateGrayNamedColor(void);}
+\par {\fs18 void AllocateNamedColorMap( char *cmap_file );}
+\par {\fs18 void SetImageWindow( short dimx, short dimy, char *image );}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 /******************************************************************************/}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 /******************************* Variables globales  **************************/}
+\par {\fs18 }
+\par {\fs18 static char     *progname;}
+\par {\fs18 int             screen_num;}
+\par {\fs18 Display         *display;}
+\par {\fs18 Window          win, root, child;}
+\par {\fs18 unsigned int    keys_buttons;}
+\par {\fs18 GC              gc;}
+\par {\fs18 Pixel           ColorMap[MAXCOLORS];}
+\par {\fs18 }
+\par {\fs18 /******************************************************************************/}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 void main( int argc, char *argv[] )}
+\par {\fs18 \{}
+\par {\fs18 }
+\par {\fs18     int i, j;}
+\par {\fs18     short **buffer;     /* image d'entree */}
+\par {\fs18     short **binaire;    /* image binaire  */}
+\par {\fs18     short **grad_mod, **grad_phase, **laplacien, **cadran, **cote;}
+\par {\fs18     short  dimx, dimy, itype;}
+\par {\fs18     Header head;}
+\par {\fs18     char *nom_fich = "cote.igb";}
+\par {\fs18 }
+\par {\fs18     char *input_file, *window_name;}
+\par {\fs18     int count;}
+\par {\fs18     XPoint points[BUFF_SIZE]; /* points a entrer sur la cote */}
+\par {\fs18 }
+\par {\fs18     printf("\\n\\nN.A.C : Numerisation Automatique des Cotes\\n");}
+\par {\fs18 }
+\par {\fs18     /* lecture ligne de commande */}
+\par {\fs18     if(argc < 2) }
+\par {\fs18     \{}
+\par {\fs18 \tab printf("\\nUsage : num fichier<.igb|.Rx>\\n\\n");}
+\par {\fs18 \tab exit(-1);}
+\par {\fs18     \}}
+\par {\fs18 }
+\par {\fs18     input_file = (char *) malloc( strlen(argv[1]) );}
+\par {\fs18     strcpy( input_file, argv[1] );}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18     if ( *input_file == NULL )}
+\par {\fs18     \{}
+\par {\fs18 \tab fprintf( stderr, "\\n\\n%c Error, nom de fichier d'entree manquant.\\n\\n", 0x07 );}
+\par {\fs18 \tab exit( 0 );}
+\par {\fs18     \}}
+\par {\fs18     else}
+\par {\fs18     \{}
+\par {\fs18 }
+\par {\fs18 \tab /* Verifier si il y a extension 'igb' */}
+\par {\fs18 \tab if ( strstr( input_file, ".igb" ) == NULL )}
+\par {\fs18 \tab     if ( strstr( input_file, ".Rx" ) == NULL )}
+\par {\fs18 \tab \tab strcat( input_file, ".igb" );}
+\par {\fs18 }
+\par {\fs18 \tab /* Rajoute le nom de fichier d'entree au nom de la fenetre */}
+\par {\fs18 \tab window_name = (char *) malloc( strlen( input_file ) + 10 );}
+\par {\fs18 \tab strcpy( window_name, "NAC : " );}
+\par {\fs18 }
+\par {\fs18 \tab /* Remonter au premier path */}
+\par {\fs18 \tab count = strlen( input_file );}
+\par {\fs18 \tab while( input_file[count] != '/' && count != 0 )}
+\par {\fs18 \tab     count--;}
+\par {\fs18 \tab if ( count != 0 )}
+\par {\fs18 \tab     strcat( window_name, ".." );}
+\par {\fs18 \tab strcat( window_name, &input_file[count] );}
+\par {\fs18     \}}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18     /* Copier le nom du programme */}
+\par {\fs18     progname = argv[0];}
+\par {\fs18 }
+\par {\fs18     /* lecture de l'image d'entree */}
+\par {\fs18     buffer = igb_read(argv[1], &head);}
+\par {\fs18     itype = head.type;}
+\par {\fs18     dimx  = head.x;}
+\par {\fs18     dimy  = head.y;}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18     /* allocation memoire */}
+\par {\fs18     grad_mod = (short **) malloc( dimy * sizeof( short * ) );}
+\par {\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\fs18 \tab grad_mod[i] = (short *) malloc( dimx * sizeof( short ) );}
+\par {\fs18 }
+\par {\fs18     grad_phase = (short **) malloc( dimy * sizeof( short * ) );}
+\par {\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\fs18 \tab grad_phase[i] = (short *) malloc( dimx * sizeof( short ) );}
+\par {\fs18 }
+\par {\fs18     laplacien = (short **) malloc( dimy * sizeof( short * ) );}
+\par {\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\fs18 \tab laplacien[i] = (short *) malloc( dimx * sizeof( short ) );}
+\par {\fs18 }
+\par {\fs18     binaire =  (short **) malloc( dimy * sizeof( short * ) );}
+\par {\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\fs18 \tab binaire[i] = (short *) malloc( dimx * sizeof( short ) );}
+\par {\fs18 }
+\par {\fs18     cadran =  (short **) malloc( dimy * sizeof( short * ) );}
+\par {\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\fs18 \tab cadran[i] = (short *) malloc( dimx * sizeof( short ) );}
+\par {\fs18 }
+\par {\fs18     cote = (short **) malloc( dimy * sizeof( short * ) );}
+\par {\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\fs18 \tab cote[i] = (short *) malloc( dimx * sizeof( short ) );}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18     printf("\\nSegmentation de l'image en cours...\\n");}
+\par {\fs18 }
+\par {\fs18     /* segmentation de l'image */}
+\par {\fs18     segmente( buffer, binaire, grad_mod, grad_phase, laplacien, cadran,}
+\par {\fs18 \tab       dimx, dimy );}
+\par {\fs18 }
+\par {\fs18     printf("\\nEntrer trois points pour limiter la cote.\\n");   }
+\par {\fs18     printf("<ESC> pour finir.\\n");}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18     /* affiche l'image segmente */}
+\par {\fs18     affiche(binaire, itype, dimx, dimy, window_name,  argv, argc,}
+\par {\fs18 \tab     points, "cmp5");}
+\par {\fs18 }
+\par {\fs18     /* analyse locale */}
+\par {\fs18     locale( binaire, cote, grad_mod, grad_phase, laplacien, cadran,}
+\par {\fs18 \tab     dimx, dimy, points );}
+\par {\fs18 }
+\par {\fs18     /* sauve l'image de la cote numerisee */}
+\par {\fs18     head.type = SHORT;}
+\par {\fs18     head.x    = dimx;}
+\par {\fs18     head.y    = dimy;}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18     igb_write( cote, nom_fich, &head );}
+\par {\fs18     igb_write( binaire, "_bin.igb", &head );}
+\par {\fs18 }
+\par {\fs18     /* affiche l'image de la cote numerisee */}
+\par {\fs18     affiche(cote, itype, dimx, dimy, window_name,  argv, argc, }
+\par {\fs18 \tab     points, "cmp5");}
+\par {\fs18 }
+\par {\fs18     /* Libere l'espace memoire */}
+\par {\fs18     for ( i = 0; i < dimy; i++ )}
+\par {\fs18     \{}
+\par {\fs18 \tab free(grad_mod[i]);}
+\par {\fs18 \tab free(grad_phase[i]);}
+\par {\fs18 \tab free(laplacien[i]);}
+\par {\fs18 \tab free(binaire[i]);}
+\par {\fs18 \tab free(buffer[i]);}
+\par {\fs18 \tab free(cadran[i]);}
+\par {\fs18 \tab free(cote[i]);}
+\par {\fs18     \}}
+\par {\fs18 }
+\par {\fs18     free(grad_mod);}
+\par {\fs18     free(grad_phase);}
+\par {\fs18     free(laplacien);}
+\par {\fs18     free(binaire);}
+\par {\fs18     free(buffer);}
+\par {\fs18     free(cadran);}
+\par {\fs18     free(cote);}
+\par {\fs18 }
+\par {\fs18 \}}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 /************************************* segmente  ******************************/}
+\par {\fs18 /*}
+\par {\fs18 }
+\par {\fs18 -Description   }
+\par {\fs18      }
+\par {\fs18 \tab A partir de l'image originale on produit une image binaire et on calcule}
+\par {\fs18 \tab le gradient ainsi que le Laplacien}
+\par {\fs18 }
+\par {\fs18 -Variable d'entree }
+\par {\fs18 }
+\par {\fs18 \tab buffer     : image originale}
+\par {\fs18 }
+\par {\fs18 -Variables de sortie }
+\par {\fs18 }
+\par {\fs18 \tab binaire    : image binaire apres segmentation}
+\par {\fs18 \tab grad_mod}
+\par {\fs18 \tab grad_phase : gradient module et phase}
+\par {\fs18 \tab laplacien  : laplacien du point}
+\par {\fs18 \tab cadran     : indique dans quel cadran se situe la pente locale}
+\par {\fs18 }
+\par {\fs18 \tab \tab \tab \tab   ^}
+\par {\fs18 \tab \tab \tab \tab 1 | 4}
+\par {\fs18 \tab \tab \tab \tab ------>}
+\par {\fs18 \tab \tab \tab \tab 2 | 3}
+\par {\fs18 }
+\par {\fs18 \tab \tab signification physique >                          }
+\par {\fs18 \tab \tab cadrans 2 et 4 : cotes dorsales poumon droit et ventrales gauche}
+\par {\fs18 \tab \tab cadrans 1 et 3 : cotes ventrales poumon droit et dorsales gauche}
+\par {\fs18 \tab \tab \tab \tab  (voir p. 60 chap.5 these de Wechsler)}
+\par {\fs18 }
+\par {\fs18 \tab dimx, dimy : dimensions de l'image d'entree}
+\par {\fs18 }
+\par {\fs18 */}
+\par {\fs18 /******************************************************************************/}
+\par {\fs18 }
+\par {\fs18 void segmente( short **buffer, short **binaire, short **grad_mod, }
+\par {\fs18 \tab        short **grad_phase, short **laplacien, short **cadran,}
+\par {\fs18 \tab        short  dimx, short dimy )}
+\par {\fs18 \{}
+\par {\fs18 }
+\par {\fs18     int i, j;}
+\par {\fs18     int somme;}
+\par {\fs18     register x, y;}
+\par {\fs18     double grad_x, grad_y;}
+\par {\fs18     short phase;}
+\par {\fs18     short mask[3][3];}
+\par {\fs18     short d;}
+\par {\fs18    }
+\par {\fs18  }
+\par {\fs18     /* masque du Laplacien a gain normalise */}
+\par {\fs18 }
+\par {\fs18     mask[0][0] = (short) -1, mask[0][1] = (short) -1, mask[0][2] = (short) -1;}
+\par {\fs18     mask[1][0] = (short) -1, mask[1][1] = (short)  8, mask[1][2] = (short) -1; }
+\par {\fs18     mask[2][0] = (short) -1, mask[2][1] = (short) -1, mask[2][2] = (short) -1; }
+\par {\fs18     d = 8; /* Normalisation */}
+\par {\fs18 \tab }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18     /* calcul du gradient et du Laplacien */}
+\par {\fs18 }
+\par {\fs18     for (y = 1; y < dimy- 1; y++)}
+\par {\fs18     \{}
+\par {\fs18 \tab for (x= 1; x < dimx- 1; x++)}
+\par {\fs18 \tab \{}
+\par {\fs18 \tab     /* calcul de l'operateur de Sobel */}
+\par {\fs18 \tab     grad_x = (double) \\}
+\par {\fs18 \tab \tab      ( 2 * (buffer[y+1][x]   - buffer[y-1][x])   + \\}
+\par {\fs18 \tab \tab \tab    (buffer[y+1][x+1] - buffer[y-1][x+1]) + \\}
+\par {\fs18 \tab \tab \tab    (buffer[y+1][x-1] - buffer[y-1][x-1]) );}
+\par {\fs18 }
+\par {\fs18 \tab     grad_y = (double) \\}
+\par {\fs18 \tab \tab      ( 2 * (buffer[y]  [x-1] - buffer[y]  [x+1]) + \\}
+\par {\fs18 \tab \tab \tab    (buffer[y-1][x-1] - buffer[y-1][x+1]) + \\}
+\par {\fs18 \tab \tab \tab    (buffer[y+1][x-1] - buffer[y+1][x+1]) );}
+\par {\fs18 }
+\par {\fs18 \tab     /* calcul de la phase du gradient */}
+\par {\fs18 \tab     if ( grad_x != 0.0 )}
+\par {\fs18 \tab \tab phase = (short) (atan (grad_y / grad_x) * 57.29578);}
+\par {\fs18 \tab     else}
+\par {\fs18 \tab \tab phase = 90;}
+\par {\fs18 }
+\par {\fs18 \tab     if ( grad_x > 0.0 )}
+\par {\fs18 \tab \tab phase += 180;}
+\par {\fs18 }
+\par {\fs18 \tab     if( phase >= 360 )}
+\par {\fs18 \tab \tab phase -= 360;}
+\par {\fs18 }
+\par {\fs18 \tab     grad_phase[y][x] = phase;}
+\par {\fs18 \tab     }
+\par {\fs18 \tab     /* calcul de la pente locale */}
+\par {\fs18 \tab     phase = phase - 90;}
+\par {\fs18 }
+\par {\fs18 \tab     /* determine le cadran selon la pente de la courbe */}
+\par {\fs18 \tab     if(phase < 0)}
+\par {\fs18 \tab \tab phase += 360;}
+\par {\fs18 \tab    }
+\par {\fs18 \tab     if( (phase >= 0) && (phase < 90) )}
+\par {\fs18 \tab \tab cadran[y][x] = 4;}
+\par {\fs18 \tab     else}
+\par {\fs18 \tab \tab if( (phase >= 90) && (phase < 180) )}
+\par {\fs18 \tab \tab      cadran[y][x] = 1;}
+\par {\fs18 \tab \tab else}
+\par {\fs18 \tab \tab     if( (phase >= 180) && (phase < 270) )}
+\par {\fs18 \tab \tab \tab  cadran[y][x] = 2;}
+\par {\fs18 \tab \tab     else}
+\par {\fs18 \tab \tab \tab if( (phase >= 270) && (phase < 360) )}
+\par {\fs18 \tab \tab \tab     cadran[y][x] = 3;}
+\par {\fs18 }
+\par {\fs18 \tab     /* calcule le module */}
+\par {\fs18 \tab     grad_mod[y][x] = (short) sqrt( grad_x * grad_x + grad_y * grad_y );}
+\par {\fs18 }
+\par {\fs18 \tab     /* calcul du Laplacien */}
+\par {\fs18 \tab     laplacien[y][x] = (short)( (buffer[y-1][x-1] * mask[0][0] + \\}
+\par {\fs18 \tab \tab \tab \tab   buffer[y-1][x]   * mask[0][1] + \\}
+\par {\fs18 \tab \tab \tab \tab   buffer[y-1][x+1] * mask[0][2] + \\}
+\par {\fs18 \tab \tab \tab \tab   buffer[y][x-1]   * mask[1][0] + \\}
+\par {\fs18 \tab \tab \tab \tab   buffer[y][x]     * mask[1][1] + \\}
+\par {\fs18 \tab \tab \tab \tab   buffer[y][x+1]   * mask[1][2] + \\}
+\par {\fs18 \tab \tab \tab \tab   buffer[y+1][x-1] * mask[2][0] + \\}
+\par {\fs18 \tab \tab \tab \tab   buffer[y+1][x]   * mask[2][1] + \\}
+\par {\fs18 \tab \tab \tab \tab   buffer[y+1][x+1] * mask[2][2]) / d );}
+\par {\fs18 }
+\par {\fs18 \tab \}/* for x */}
+\par {\fs18     \} /* for y */}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18     /* Retourne une image binaire apres seuillage */}
+\par {\fs18     seuillage( binaire, grad_mod, grad_phase, laplacien, cadran,}
+\par {\fs18 \tab        dimx, dimy );}
+\par {\fs18 }
+\par {\fs18 \} /* segmente */}
+\par {\fs18  }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 /*********************************** seuillage  *******************************/}
+\par {\fs18 /*}
+\par {\fs18 }
+\par {\fs18 -Description   }
+\par {\fs18      }
+\par {\fs18 \tab A partir du gradient, du Laplacien et de l'information sur l'orientation}
+\par {\fs18 \tab on produit une image binaire }
+\par {\fs18 }
+\par {\fs18 -Variables d'entree }
+\par {\fs18 }
+\par {\fs18 \tab grad_mod}
+\par {\fs18 \tab grad_phase : gradient module et phase}
+\par {\fs18 \tab laplacien  : laplacien du point}
+\par {\fs18 \tab cadran     : indique dans quel cadran se situe la pente locale }
+\par {\fs18 \tab dimx, dimy : dimensions de l'image d'entree}
+\par {\fs18 }
+\par {\fs18 -Variables de sortie }
+\par {\fs18 }
+\par {\fs18 \tab binaire    : image binaire apres segmentation}
+\par {\fs18 }
+\par {\fs18 */}
+\par {\fs18 /******************************************************************************/}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 void seuillage( short **binaire, short **grad_mod, }
+\par {\fs18 \tab \tab short **grad_phase, short **laplacien, short **cadran,}
+\par {\fs18 \tab \tab short  dimx, short dimy )}
+\par {\fs18 \{}
+\par {\fs18     int i, j;}
+\par {\fs18     register x, y;}
+\par {\fs18 }
+\par {\fs18     for (y =1; y < dimy-1; y++)}
+\par {\fs18     \{}
+\par {\fs18 \tab for (x=1; x < dimx-1; x++)}
+\par {\fs18 \tab \{}
+\par {\fs18 \tab \tab }
+\par {\fs18 \tab     /* seuillage */ }
+\par {\fs18 \tab    }
+\par {\fs18 \tab     if( grad_mod[y][x] >= SEUIL_GRAD) }
+\par {\fs18 \tab     \{}
+\par {\fs18 \tab \tab   grad_phase[y][x]= (short)( abs(grad_phase[y][x]) );}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 \tab \tab   /* cotes dorsales poumon gauche et ventrales poumon droit */}
+\par {\fs18 \tab \tab   if( ((cadran[y][x] ==1) || (cadran[y][x]==3)) )}
+\par {\fs18 \tab \tab   \{}
+\par {\fs18 \tab \tab     if(laplacien[y][x] >= SEUIL_LAP)}
+\par {\fs18 \tab \tab     \{}
+\par {\fs18 \tab \tab \tab binaire[y][x] = (short) 500;      /* contour externe */ }
+\par {\fs18 \tab \tab     \}}
+\par {\fs18 \tab \tab     else}
+\par {\fs18 \tab \tab     \{}
+\par {\fs18 \tab \tab \tab if(laplacien[y][x] < SEUIL_LAP)}
+\par {\fs18 \tab \tab \tab     binaire[y][x] = (short) 1023;/*1023contour interne*/}
+\par {\fs18 \tab \tab     \}}
+\par {\fs18 \tab \tab   \}}
+\par {\fs18 \tab \tab   /* cotes dorsales poumon droit et ventrales poumon gauche */}
+\par {\fs18 \tab \tab   else}
+\par {\fs18 \tab \tab   \{}
+\par {\fs18 \tab \tab     if(laplacien[y][x] >= SEUIL_LAP)}
+\par {\fs18 \tab \tab     \{}
+\par {\fs18 \tab \tab \tab  binaire[y][x] = (short) 800;/* 800 contour externe */  }
+\par {\fs18 \tab \tab     \}}
+\par {\fs18 \tab \tab     else}
+\par {\fs18 \tab \tab     \{}
+\par {\fs18 \tab \tab \tab if(laplacien[y][x] < SEUIL_LAP)}
+\par {\fs18 \tab \tab \tab     binaire[y][x] = (short) 900; /* contour interne */}
+\par {\fs18 \tab \tab     \}}
+\par {\fs18 \tab \tab   \}}
+\par {\fs18 }
+\par {\fs18 \tab     \}}
+\par {\fs18 \tab     else}
+\par {\fs18 \tab \tab binaire[y][x] = (short) 0;}
+\par {\fs18 }
+\par {\fs18 \tab \}/* for x */}
+\par {\fs18     \} /* for y */}
+\par {\fs18 }
+\par {\fs18 \}/* seuillage */}
+\par {\fs18 }
+\par {\fs18 /************************************ locale  *********************************/}
+\par {\fs18 /*}
+\par {\fs18 }
+\par {\fs18 -Description   }
+\par {\fs18      }
+\par {\fs18 \tab A partir de l'image binaire et de l'information sur l'orientation }
+\par {\fs18 \tab on analyse localement les contours des cotes pour les numeriser. }
+\par {\fs18 }
+\par {\fs18 -Variables d'entree }
+\par {\fs18 }
+\par {\fs18 \tab grad_mod}
+\par {\fs18 \tab grad_phase : gradient module et phase}
+\par {\fs18 \tab laplacien  : laplacien du point}
+\par {\fs18 \tab cadran     : indique dans quel cadran se situe la pente locale }
+\par {\fs18 \tab dimx, dimy : dimensions de l'image d'entree}
+\par {\fs18 \tab pts        : les points entres par l'usager sur la cote}
+\par {\fs18 \tab binaire    : image binaire apres segmentation}
+\par {\fs18 }
+\par {\fs18 -Variables de sortie }
+\par {\fs18 }
+\par {\fs18 \tab cote       : image de la cote numerisee  }
+\par {\fs18 }
+\par {\fs18 */}
+\par {\fs18 /******************************************************************************/}
+\par {\fs18 }
+\par {\fs18 void locale( short **binaire, short** cote, short **grad_mod, }
+\par {\fs18 \tab      short **grad_phase, short **laplacien, short **cadran,}
+\par {\fs18 \tab      short  dimx, short dimy, XPoint *pts )}
+\par {\fs18 }
+\par {\fs18 \{}
+\par {\fs18 }
+\par {\fs18     int i;}
+\par {\fs18     int x, y;                           /* coordonnees du point examine */}
+\par {\fs18     int R1, R2, L1, L2,}
+\par {\fs18 \tab D1, D2, U1, U2;                 /* booleens pour connectivite */ }
+\par {\fs18     int fin = 0;                        /* indique la fin de la recherche */}
+\par {\fs18 }
+\par {\fs18 /* initialise l'image de la cote */}
+\par {\fs18 for (y =0; y < dimy; y++)}
+\par {\fs18     for (x=0; x < dimx; x++)}
+\par {\fs18 \tab  cote[y][x] = (short) 0;}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 /* on part avec le point entre par l'usager */}
+\par {\fs18 /* patient #1053072 cote avec pt init. x=291 y=250 */}
+\par {\fs18 x = pts[1].x; y = pts[1].y;}
+\par {\fs18 }
+\par {\fs18 printf("\\nx=%d y=%d\\n", x, y);}
+\par {\fs18 }
+\par {\fs18 /* Analyse locale et suivi de contours */}
+\par {\fs18 while(!fin)}
+\par {\fs18 \{}
+\par {\fs18 }
+\par {\fs18    /* determine la similarite de la direction a 10% pres */}
+\par {\fs18    grad_phase[y][x]= (short)( abs(grad_phase[y][x]) );}
+\par {\fs18 }
+\par {\fs18    U1 = ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y-1][x-1]))}
+\par {\fs18       &&  (grad_phase[y][x] >= (short)(0.90 * grad_phase[y-1][x-1])) }
+\par {\fs18       &&  (binaire[y-1][x-1] != 0) )? 1:0;}
+\par {\fs18 }
+\par {\fs18    U2 = ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y-1][x]))}
+\par {\fs18       &&  (grad_phase[y][x] >= (short) (0.90 * grad_phase[y-1][x])) }
+\par {\fs18       &&  (binaire[y-1][x] != 0) )? 1:0;}
+\par {\fs18 }
+\par {\fs18    D1 = ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y+1][x]))}
+\par {\fs18       &&  (grad_phase[y][x] >= (short) (0.90 * grad_phase[y+1][x])) }
+\par {\fs18       &&  (binaire[y+1][x] != 0) )? 1:0;}
+\par {\fs18 }
+\par {\fs18    D2 = ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y+1][x+1]))}
+\par {\fs18       &&  (grad_phase[y][x] >= (short) (0.90 * grad_phase[y+1][x+1]))}
+\par {\fs18       &&  (binaire[y+1][x+1] != 0) )? 1:0;}
+\par {\fs18 }
+\par {\fs18    L1 = ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y][x-1]))}
+\par {\fs18       &&  (grad_phase[y][x] >= (short) (0.90 * grad_phase[y][x-1]))}
+\par {\fs18       &&  (binaire[y][x-1] != 0) )? 1:0;}
+\par {\fs18 }
+\par {\fs18    L2 = ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y+1][x-1]))}
+\par {\fs18       &&  (grad_phase[y][x] >= (short) (0.90 * grad_phase[y+1][x-1]))}
+\par {\fs18       &&  (binaire[y+1][x-1] != 0) )? 1:0;}
+\par {\fs18 }
+\par {\fs18    R1 = ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y-1][x+1]))}
+\par {\fs18       &&  (grad_phase[y][x] >= (short) (0.90 * grad_phase[y-1][x+1]))}
+\par {\fs18       &&  (binaire[y-1][x+1] != 0) )? 1:0;}
+\par {\fs18 }
+\par {\fs18    R2 = ( (grad_phase[y][x] <= (short) (1.10 * grad_phase[y][x+1]))}
+\par {\fs18       &&  (grad_phase[y][x] >= (short) (0.90 * grad_phase[y][x+1]))}
+\par {\fs18       &&  (binaire[y][x+1] != 0) )? 1:0;}
+\par {\fs18 }
+\par {\fs18    printf("\\n L1 = %d L2 = %d D1 = %d\\n", L1, L2, D1);}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18    /* indique si on passe a la cote ventrale */}
+\par {\fs18    fin = (y < pts[2].y) ? 0:1;}
+\par {\fs18 }
+\par {\fs18    /* examine la connectivite du point courant  */}
+\par {\fs18    /* on passe au point suivant */}
+\par {\fs18    /* cote dorsale poumon droit */}
+\par {\fs18    if(L1)}
+\par {\fs18    \{}
+\par {\fs18 \tab x = x - 1;}
+\par {\fs18 \tab cote[y][x] = 1023;}
+\par {\fs18 }
+\par {\fs18    \}}
+\par {\fs18    else}
+\par {\fs18    \{}
+\par {\fs18 \tab if(L2)}
+\par {\fs18 \tab \{}
+\par {\fs18 \tab      x = x - 1;}
+\par {\fs18 \tab      y = y + 1;}
+\par {\fs18 \tab      cote[y][x] = 1023;}
+\par {\fs18 }
+\par {\fs18 \tab \}}
+\par {\fs18 \tab else}
+\par {\fs18 \tab \{}
+\par {\fs18 \tab      if(D1)}
+\par {\fs18 \tab      \{}
+\par {\fs18 \tab \tab    y = y + 1;}
+\par {\fs18 \tab \tab    cote[y][x] = 1023;}
+\par {\fs18 }
+\par {\fs18 \tab      \}}
+\par {\fs18 \tab      else}
+\par {\fs18 \tab      \{}
+\par {\fs18 \tab \tab   fin = 1;}
+\par {\fs18 \tab      \}}
+\par {\fs18 \tab \}     }
+\par {\fs18    \}/* if */}
+\par {\fs18    }
+\par {\fs18    printf("\\n fin = %d\\n", fin);}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 \}/* while */}
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 }
+\par {\fs18 \}/* locale */}\par}
